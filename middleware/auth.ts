@@ -1,8 +1,6 @@
-import {NextApiRequest, NextApiResponse} from "next";
-
 const jwt = require('jsonwebtoken')
 
-const auth = (req: NextApiRequest, res: NextApiResponse, next) => {
+const auth = (req, res, next) => {
    try {
        const token = req.headers['x-auth-token']
        const verified = jwt.verify(token, process.env.JWT_SECRET)

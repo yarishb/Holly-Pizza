@@ -24,7 +24,6 @@ export class Database {
 
 export class DatabaseManager {
     db:any
-    rows:any
 
     constructor(db: any) {
         this.db = db.db

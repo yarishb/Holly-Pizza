@@ -23,7 +23,6 @@ const signup = async(req: NextApiRequest, res: NextApiResponse) => {
         if (existingUserByPhone.length === 1) return res.status(400).json({msg: "User with this phone number already exists."})
 
 
-
         const salt: string = await bcrypt.genSalt()
         const passwordHash = await bcrypt.hash(password, salt)
 

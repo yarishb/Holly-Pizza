@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "next": "10.0.7",
     "node-postgres": "^0.6.2",
     "pg": "^8.5.1",
