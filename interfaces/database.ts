@@ -1,4 +1,4 @@
-export interface config {
+export interface Config {
     user: string,
     host: string,
     database: string,

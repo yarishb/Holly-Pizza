@@ -1,10 +1,10 @@
 const Pool = require('pg').Pool
-import {config} from '../interfaces/database'
+import {Config} from '../interfaces/database'
 
 export class Database {
     db: any
 
-    constructor(config: config) {
+    constructor(config: Config) {
         this.connect(config)
     }
 

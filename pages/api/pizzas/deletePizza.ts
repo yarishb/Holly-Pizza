@@ -4,11 +4,15 @@ import {NextApiRequest, NextApiResponse} from "next";
 
 
 const deletePizza = async (req: NextApiRequest, res: NextApiResponse) => {
-    const {id} = req.body
-    const dbManager = new DatabaseManager(db)
+    try {
+        const {id} = req.body
+        const dbManager = new DatabaseManager(db)
 
-    const row = await dbManager.deleteElement("*", "public.pizzas", "id", id)
-    res.json(row)
+        const row = await dbManager.deleteElement("*", "public.pizzas", "id", id)
+        res.json(row)
+    } catch (err) {
+        return res.json(err)
+    }
 }
 
 export default deletePizza

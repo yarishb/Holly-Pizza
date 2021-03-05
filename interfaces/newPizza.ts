@@ -1,4 +1,4 @@
-export interface newPizza {
+export interface NewPizza {
     image: any,
     name: string,
     description: string,

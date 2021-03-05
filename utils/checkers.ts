@@ -1,4 +1,4 @@
-import {newPizza} from "../interfaces/createPizza";
+import {NewPizza} from "../interfaces/newPizza";
 
 interface createPizzaReturn {
     status: boolean,
@@ -6,9 +6,7 @@ interface createPizzaReturn {
 }
 
 class Checker {
-
-
-     public createPizzaChecker(newPizza: newPizza): createPizzaReturn  {
+     public createPizzaChecker(newPizza: NewPizza): createPizzaReturn  {
         const { image, name, description, price, category } = newPizza
 
         if (!image) return {status: false, message: "Enter image field."}
@@ -20,6 +18,24 @@ class Checker {
 
         return {status: true, message: "All the fields are entered"}
     }
+
+    public passwordChecker(password: string, passwordCheck: string): string {
+        let msg = ''
+        const letterRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])");
+        const numericRegex = new RegExp("(?=.*[0-9])");
+
+
+        if (password.length < 7) msg = "Your password must be at least 7 characters.";
+
+        if (letterRegex.test(password) == false) msg = "Your password must contain uppercase and lowercase letters.";
+
+        if (numericRegex.test(password) === false) msg = "Your password must contain  numbers.";
+
+        if (password !== passwordCheck) msg = "Your passwords do not match.";
+
+        return msg
+    }
+
 }
 
 
