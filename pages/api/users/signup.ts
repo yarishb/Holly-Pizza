@@ -6,7 +6,7 @@ import db from "../../../lib/db";
 const bcrypt = require('bcryptjs');
 
 
-const signup = async(req: NextApiRequest, res: NextApiResponse) => {
+const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
     try {
         const checker = new Checker()
         const dbManager = new DatabaseManager(db)

@@ -6,7 +6,7 @@ const validToken = async(req: NextApiRequest, res: NextApiResponse) => {
         const token = req.headers['x-auth-token']
         if (!token) return res.json(false)
 
-        const verified = jwt.verify(token, process.env.JWT_SECRET)
+        const verified: boolean = jwt.verify(token, process.env.JWT_SECRET)
         if (!verified) return res.json(false)
 
         return res.json(true)

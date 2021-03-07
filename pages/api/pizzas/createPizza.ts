@@ -10,21 +10,20 @@ const createPizzas = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         try {
             const newPizza: NewPizza = req.body
-            const {image, name, description, price, category, orders} = newPizza
+            let { image, name, description, price, category, orders, protein, fat, carbohydrates, weight, size} = newPizza
 
             const checkedData = checkerClass.createPizzaChecker(newPizza)
             if (checkedData.status === false) {
                 return res.status(400).json({msg: checkedData.message})
             }
 
-
             const timeStamp = Date.now().toString()
             const dbManager = new DatabaseManager(db)
             dbManager.insertData(
                 "public.pizzas",
-                "image, name, description, price, category, last_update, orders",
-                "$1, $2, $3, $4, $5, $6, $7",
-                [image, name, description, price, category, timeStamp, orders]
+                "image, name, description, price, category, last_update, orders, protein, fat, carbohydrates, weight, size",
+                "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
+                [image, name, description, price, category, timeStamp, orders, protein, fat, carbohydrates, weight, size]
             )
 
             const rows = await dbManager.selectData("public.pizzas")

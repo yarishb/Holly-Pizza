@@ -20,6 +20,7 @@ const getUser = async(req: NextApiRequest, res: NextApiResponse) => {
             orders: user[0].orders,
             is_staff: user[0].is_staff
         });
+
     } catch (err) {
         console.log(err)
         res.status(500).json({err: err.message});

@@ -5,5 +5,10 @@ export interface NewPizza {
     price: number,
     category: string,
     timeStamp: string,
-    orders: number
+    orders: number,
+    protein: number,
+    fat: number,
+    carbohydrates: number,
+    weight: number,
+    size: string
 }
