@@ -3,6 +3,8 @@ import {Signup} from "../../../interfaces/signup";
 import Checker from "../../../utils/checkers";
 import {DatabaseManager} from "../../../utils/database";
 import db from "../../../lib/db";
+import Axios from "axios";
+import signin from "./signin";
 const bcrypt = require('bcryptjs');
 
 
@@ -11,6 +13,7 @@ const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
         const checker = new Checker()
         const dbManager = new DatabaseManager(db)
         let {email, password, confirmPassword, name, is_staff, phone}: Signup = req.body
+
         if (!email || !password || !confirmPassword || !name || !phone) return res.status(400).json({msg: "Not all fields have been filled."})
 
         const passwordCheck: string = checker.passwordChecker(password, confirmPassword)
@@ -27,18 +30,14 @@ const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
         const passwordHash = await bcrypt.hash(password, salt)
 
         name = name.charAt(0).toUpperCase() + name.slice(1);
-        const user = dbManager.insertData(
+        await dbManager.insertData(
             'public.users',
             'email, password, name, phone, is_staff, orders',
             '$1, $2, $3, $4, $5, $6',
             [email, passwordHash, name, phone, is_staff, {}])
 
-        const userDataToRes = {
-            email,
-            name,
-            phone
-        }
-        res.json(userDataToRes)
+        const response = await signin(req, res)
+        res.json(response)
     } catch (err) {
 
     }

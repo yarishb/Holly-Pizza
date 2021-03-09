@@ -1,6 +1,7 @@
 import '../styles/index.scss'
+import {AppProps} from "next/app";
 
-const HollyPizza = ({Component, pageProps}) => {
+const HollyPizza = ({Component, pageProps}: AppProps) => {
     return (
         <Component {...pageProps}/>
     )

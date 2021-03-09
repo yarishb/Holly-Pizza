@@ -7,6 +7,7 @@ module.exports = {
         DB_DATABASE: process.env.DB_DATABASE,
         DB_PASSWORD: process.env.DB_PASSWORD,
         DB_PORT: process.env.DB_PORT,
-        JWT_SECRET: process.env.JWT_SECRET
+        JWT_SECRET: process.env.JWT_SECRET,
+        API_URL: 'http://localhost:3000/api'
     }
 }

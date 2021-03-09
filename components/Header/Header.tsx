@@ -1,9 +1,20 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './header.module.scss';
 import Link from 'next/link'
 
 
 const Header = () => {
+    const ref = useRef<HTMLHeadingElement>()
+
+
+    useEffect(() => {
+        window.onscroll = () => {
+            if (ref !== undefined) {
+                ref.current.style.transform = "rotate(" + window.pageYOffset/2 + "deg)"
+            }
+        }
+    }, [])
+
     return (
         <>
             <div className={styles.header}>
@@ -21,7 +32,7 @@ const Header = () => {
                 </div>
                 <div className={styles.header__right}>
                     <div className={styles.header__pizza}>
-                        <div className={styles.header__pizza__img}></div>
+                        <div ref={ref} className={styles.header__pizza__img}/>
                     </div>
                     <div className={styles.header__right__bg}>PIZZA</div>
                 </div>

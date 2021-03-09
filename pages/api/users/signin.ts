@@ -19,17 +19,19 @@ const signin = async(req:NextApiRequest, res:NextApiResponse) => {
         if (!ifMatch) return res.status(400).json({msg: "Your password doesn't match."})
 
         const token = jwt.sign({id: user[0].id}, process.env.JWT_SECRET)
-        res.json({
+        const resData = {
             token,
             user: {
-                id: user[0].id,
                 name: user[0].name,
                 email: user[0].email,
                 orders: user[0].orders,
                 phone: user[0].phone,
                 is_staff: user[0].is_staff
             }
-        })
+        }
+
+        res.json(resData)
+        return resData
     } catch (err) {
         console.log(err)
         return res.status(500).json(err.message)
