@@ -35,7 +35,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                 if (err) return res.status(500).json({msg: "Something went wrong creating the folder."})  
             })     
 
-            await new Promise((resolve, reject) => {
+            const MainParser = new Promise((resolve, reject) => {
                 const form = formidable({
                     multiple: true,
                     uploadDir: `./images/media/${timeStamp}`
@@ -56,12 +56,12 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                     resolve({fields, files})
                 })
             })
-            .catch((err) => {
-                return res.status(400).json(err.message)
-            })
-            .then((data: NewPizza) => {
+            
+            MainParser.then((data: NewPizza) => {   
+                console.log(data);
                 const image: string = data.files.image.path
-
+                
+                
                 let {name, description, price, category, protein, fat, carbohydrates, weight, size} = data.fields
                 
                 const checkedData = checkerClass.createPizzaChecker(image, data.fields)
@@ -76,9 +76,13 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                     [image, name, description, price, category, timeStamp, 0, protein, fat, carbohydrates, weight, size]
                 )
             })
+            
+            MainParser.catch((err) => {
+                return res.status(400).json(err.message)
+            })
 
-            const testData = await dbManager.selectData('public.pizzas')
-            res.json(testData)
+            const data = await dbManager.selectData('public.pizzas')
+            res.json(data)
         } catch (err) {
             return console.log(err);
         }  
