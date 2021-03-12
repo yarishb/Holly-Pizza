@@ -2,6 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import {Signin} from "../../../interfaces/signin";
 import {DatabaseManager} from "../../../utils/database";
 import db from "../../../lib/db";
+import {User} from "../../../interfaces/user";
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 
@@ -12,7 +13,7 @@ const signin = async(req:NextApiRequest, res:NextApiResponse) => {
         let {email, password}: Signin = req.body
         if (!email || !password) return res.status(400).json({msg: "Not all fields have been entered."})
 
-        const user = await dbManager.findElement("*", "public.users", "email", email)
+        const user: Array<User> = await dbManager.findElement("*", "public.users", "email", email)
         if (user.length === 0) return res.status(400).json({msg: "This account does not exist. Try to register."})
 
         const ifMatch: boolean = await bcrypt.compare(password, user[0].password)

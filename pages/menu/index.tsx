@@ -1,10 +1,13 @@
 import User from '../../utils/user'
 import {useEffect} from "react";
-const userManager = new User()
+
 
 const MenuPage = () => {
-
     useEffect(() => {
+        const userManager = new User()
+        const user = userManager.checkLogged().then((user) => {
+            console.log(user);
+        })
     }, [])
 
     return (
@@ -15,7 +18,8 @@ const MenuPage = () => {
 }
 
 
+
 // MenuPage.getInitialProps = async () => {
-//
+
 // }
 export default MenuPage

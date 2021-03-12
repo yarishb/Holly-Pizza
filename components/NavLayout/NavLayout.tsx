@@ -7,11 +7,13 @@ import ModalSign from "../ModalSign/Modal";
 export default function navLayout({children}) {
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [link, setLink] = useState<string>('/')
-    const modalRef = useRef<HTMLHeadingElement>();
+    const modalRef = useRef<HTMLHeadingElement>()
+    
 
     const handleUser = () => {
         if (typeof window !== "undefined") {
-            if (localStorage.getItem('x-auth-token') !== null) {
+            let token = localStorage.getItem('x-auth-token')
+            if (token !== null && token !== '') {
                 setLink('/account')
             } else {
                 setOpenModal(true)
@@ -51,5 +53,3 @@ export default function navLayout({children}) {
         </>
     )
 }
-
-

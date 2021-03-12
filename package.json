@@ -11,14 +11,19 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
+    "formidable": "^1.2.2",
+    "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
+    "multer": "^1.4.2",
     "next": "10.0.7",
     "node-postgres": "^0.6.2",
     "pg": "^8.5.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "slugify": "^1.4.7"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
