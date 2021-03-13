@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import styles from './header.module.scss';
 import Link from 'next/link'
+import Pizza from '../PizzaRotate/Pizza';
 
 
 const Header = () => {
@@ -31,9 +32,7 @@ const Header = () => {
                      </div>
                 </div>
                 <div className={styles.header__right}>
-                    <div className={styles.header__pizza}>
-                        <div ref={ref} className={styles.header__pizza__img}/>
-                    </div>
+                    <Pizza pizzaRef={ref}/>
                     <div className={styles.header__right__bg}>PIZZA</div>
                 </div>
             </div>

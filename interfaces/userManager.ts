@@ -2,14 +2,17 @@ export interface TokenRes {
     data: boolean
 }
 
+
+export interface UserInterface {
+    name: string,
+    email: string,
+    phone: string,
+    orders: object,
+    is_staff: boolean
+}
+
 export interface UserRes {
-    data: {
-        name: string,
-        email: string,
-        phone: string,
-        orders: object,
-        is_staff: boolean
-    },
+    data: UserInterface,
 
     status: number,
     statusText: string

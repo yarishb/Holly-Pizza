@@ -1,14 +1,25 @@
 import React, {useState, useRef, useEffect} from "react";
 import styles from './navlayout.module.scss'
-import Link from 'next/link'
+import Link from 'next/link';
 import ModalSign from "../ModalSign/Modal";
+import {useRouter} from 'next/router';
+import Axios from 'axios';
+import Error from '../Error/Error';
+import {ErrorInterface} from '../../interfaces/error'
 
 
 export default function navLayout({children}) {
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [link, setLink] = useState<string>('/')
+
     const modalRef = useRef<HTMLHeadingElement>()
-    
+    const errorRef = useRef<HTMLHeadingElement>()
+    const router = useRouter()
+
+    const [error, setError] = useState<ErrorInterface>({
+        text: '',
+        open: false
+    })
 
     const handleUser = () => {
         if (typeof window !== "undefined") {
@@ -33,14 +44,45 @@ export default function navLayout({children}) {
         }
     }
 
+
+    const sign = async(e, path, data) => {
+        e.preventDefault()
+
+
+        try {
+            const res = await Axios.post(`${process.env.API_URL}/users/${path}`, data)
+            localStorage.setItem('x-auth-token', res.data.token)
+            await router.push('/account')
+
+        } catch (err) {
+            setError({
+                text: err.response.data.msg,
+                open: true
+            })         
+            
+            setTimeout(() => {
+               setError({
+                   text: '',
+                   open: false
+               }) 
+            }, 2500);
+        }
+    }
+
     return (
         <>
             {openModal &&
                 <>
+                    {
+                        error.open &&
+                            <Error ref={errorRef} text={error.text}/>
+                    }
                     <div className={styles.modalCenter}>
                         <div ref={modalRef} className={`${styles.modal} ${styles.modal_open}`}>
-                            <div onClick={() => closeModal()} className={styles.close}>x</div>
-                            <ModalSign/>
+                            <div>
+                                <div onClick={() => closeModal()} className={styles.close}>x</div>
+                                <ModalSign sign={sign}/>
+                            </div>
                         </div>
                     </div>
                 </>

@@ -1,0 +1,11 @@
+@import '../../styles/variables/variables.scss';
+
+.error {
+    position: absolute;
+    background-color: $pink;
+    z-index: 10;
+    color: $white;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 10px;
+} 
+

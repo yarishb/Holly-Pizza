@@ -11,8 +11,8 @@ const getPizza = async (req: NextApiRequest, res: NextApiResponse) => {
         const row = await dbManager.findElement("*", "public.pizzas", "id", id)
 
         if (row.length === 0) {
-            return res.status(400).json({msg: "Pizza with this id does not exist"})
-        }
+            return res.status(400).json({msg: "Піци з таким id не знайдено."})
+        }    
 
         res.json(row)
     } catch (err) {

@@ -3,7 +3,6 @@ import {NewPizza} from "../../../interfaces/newPizza";
 import Checker from '../../../utils/checkers';
 import db from '../../../lib/db';
 import {DatabaseManager} from "../../../utils/database";
-import { rejects } from "assert";
 
 const moment = require('moment')
 const path = require('path');
@@ -32,7 +31,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
             }
             
             fs.mkdir(`./images/media/${timeStamp}`, {recursive: true}, (err) => {    
-                if (err) return res.status(500).json({msg: "Something went wrong creating the folder."})  
+                if (err) return res.status(500).json({msg: "Сталась помилка при створенні папки."})  
             })     
 
             const MainParser = new Promise((resolve, reject) => {
@@ -46,9 +45,17 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                 form.keepFileName = true
     
                 form.on("fileBegin", (name, file) => {
-                    if (!validateType(file.type)) return reject({message: {msg: "Unavailable type of image. Try jpeg or png."}})
-                    if (file.size >= 1048576) return ({message: {msg: "Maximum file size exceeded"}})
-                    if (validateType(file.type) && file.size <=1048576) file.path = path.join(`images/media/${timeStamp}`, slugify(timeStamp + "_" + imageTimeStamp + '_' + file.name))
+                    if (!validateType(file.type)) {
+                        return reject({message: {msg: "Недоступний тип картинки. Спробуйте jpeg або png."}})
+                    }
+
+                    if (file.size >= 1048576) {
+                        return reject(({message: {msg: "Завеликий розмір картинки."}}))
+                    }
+                    
+                    if (validateType(file.type) && file.size <=1048576) {
+                        file.path = path.join(`images/media/${timeStamp}`, slugify(timeStamp + "_" + imageTimeStamp + '_' + file.name))
+                    }
                 })
             
                 form.parse(req, (err, fields, files) => {
@@ -56,14 +63,12 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                     resolve({fields, files})
                 })
             })
-            
+
             MainParser.then((data: NewPizza) => {   
-                console.log(data);
                 const image: string = data.files.image.path
-                
-                
+
                 let {name, description, price, category, protein, fat, carbohydrates, weight, size} = data.fields
-                
+
                 const checkedData = checkerClass.createPizzaChecker(image, data.fields)
                 if (checkedData.status === false) {
                     return res.status(400).json({msg: checkedData.message})
@@ -87,7 +92,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
             return console.log(err);
         }  
     } else {
-        return res.status(500).json({msg: "We support only POST requests for creating a pizza."})
+        return res.status(500).json({msg: "Ми дозволяєм тільки  POST запити."})
     }
 }
 

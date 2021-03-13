@@ -1,0 +1,20 @@
+.pizza {
+    &__img {
+      position: absolute;
+      background-image: url('../../images/pizza.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 37rem;
+      height: 35rem;
+      margin-left: -15%;
+      margin-top: 5%;
+      z-index: 3;
+      transform: rotate(-360deg);
+      animation: pizzaRotate 2.5s alternate ease-in-out;
+    }
+  }
+
+  @keyframes pizzaRotate {
+    0% {transform: rotate(90deg)}
+    100% {transform: rotate(-360deg)}
+  }

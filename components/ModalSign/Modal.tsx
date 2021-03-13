@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import styles from './modal.module.scss'
+import styles from './modal.module.scss';
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+
 import Axios from "axios";
 import {useRouter} from "next/router";
 
@@ -14,8 +15,7 @@ interface Input {
     is_staff: boolean
 }
 
-
-const ModalSign = () => {
+const ModalSign = ({sign}) => {
     const [signup, setSignUp] = useState<boolean>(true)
     const [data, setData] = useState<Input>({
 		name: '',
@@ -25,11 +25,10 @@ const ModalSign = () => {
         phone: '',
         is_staff: false
 	})
-    const router = useRouter()
 
 	const inputHandler = (e) => {
 		e.preventDefault()
-		const value = e.target.value
+		const value: string = e.target.value
 
 		setData({
 			...data,
@@ -37,24 +36,13 @@ const ModalSign = () => {
 		})
 	}
 
-	const sign = async(e, path) => {
-        e.preventDefault()
-        try {
-            const res = await Axios.post(`${process.env.API_URL}/users/${path}`, data)
-            localStorage.setItem('x-auth-token', res.data.token)
-            await router.push('/account')
-        } catch (err) {
-            console.log(err.response.data.msg)
-        }
-    }
-
 
     return (
         <>
             <div className={styles.signType}>
                 {signup ? "Реєстрація" : "Вхід"}
             </div>
-            <form className={styles.form} onSubmit={(e) => signup? sign(e,'signup') : sign(e, 'signin')}>
+            <form className={styles.form} onSubmit={(e) => signup? sign(e,'signup', data) : sign(e, 'signin', data)}>
                 {signup && <Input value={data.name} name={'name'} onChange={inputHandler} type={'name'}
                         placeholder={"Введіть Ваше ім'я"}/>}
 				<Input value={data.email} name={'email'} onChange={inputHandler} type={'email'} placeholder={'Введіть email.'}/>

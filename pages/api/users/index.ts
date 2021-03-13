@@ -10,7 +10,7 @@ const getUser = async(req: NextApiRequest, res: NextApiResponse) => {
         const dbManager = new DatabaseManager(db)
         const decodedJwt = jwt_decode(req.headers['x-auth-token']);
         const user: Array<User> = await dbManager.findElement("*", "public.users", "id", decodedJwt.id)
-        if (user.length === 0) return res.status(400).json({msg: "You are not signed in."})    
+        if (user.length === 0) return res.status(400).json({msg: "Ви не ввійшли в свій аккаунт."})    
 
         res.send({
             name: user[0].name,

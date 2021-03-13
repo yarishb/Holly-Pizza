@@ -11,13 +11,13 @@ const signin = async(req:NextApiRequest, res:NextApiResponse) => {
     try {
         const dbManager = new DatabaseManager(db)
         let {email, password}: Signin = req.body
-        if (!email || !password) return res.status(400).json({msg: "Not all fields have been entered."})
+        if (!email || !password) return res.status(400).json({msg: "Введіть всі поля."})
 
         const user: Array<User> = await dbManager.findElement("*", "public.users", "email", email)
-        if (user.length === 0) return res.status(400).json({msg: "This account does not exist. Try to register."})
+        if (user.length === 0) return res.status(400).json({msg: "Такого аккаунта не існує, попробуйте зареєструватись."})
 
         const ifMatch: boolean = await bcrypt.compare(password, user[0].password)
-        if (!ifMatch) return res.status(400).json({msg: "Your password doesn't match."})
+        if (!ifMatch) return res.status(400).json({msg: "Паролі не співпадають."})
 
         const token = jwt.sign({id: user[0].id}, process.env.JWT_SECRET)
         const resData = {

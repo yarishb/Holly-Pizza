@@ -15,7 +15,7 @@ const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
         const dbManager = new DatabaseManager(db)
         let {email, password, confirmPassword, name, is_staff, phone}: Signup = req.body
 
-        if (!email || !password || !confirmPassword || !name || !phone) return res.status(400).json({msg: "Not all fields have been filled."})
+        if (!email || !password || !confirmPassword || !name || !phone) return res.status(400).json({msg: "Введіть всі поля."})
 
         const passwordCheck: string = checker.passwordChecker(password, confirmPassword)
         if (passwordCheck !== "") return res.status(400).json({msg: passwordCheck})
@@ -23,8 +23,8 @@ const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
         const existingUserByEmail: Array<User> = await dbManager.findElement("*", "public.users", "email", email)
         const existingUserByPhone: Array<User> = await dbManager.findElement("*", "public.users", "phone", phone)
 
-        if (existingUserByEmail.length === 1) return res.status(400).json({msg: "User with this email already exists."})
-        if (existingUserByPhone.length === 1) return res.status(400).json({msg: "User with this phone number already exists."})
+        if (existingUserByEmail.length === 1) return res.status(400).json({msg: "Користувач з даною поштою вже існує."})
+        if (existingUserByPhone.length === 1) return res.status(400).json({msg: "Користувач з даним номером телефону вже існує."})
 
 
         const salt: string = await bcrypt.genSalt()
