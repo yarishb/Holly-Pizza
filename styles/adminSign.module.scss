@@ -1,0 +1,35 @@
+@import './variables/variables.scss';
+
+.form {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: 2px 2px 8px 0px rgba(34, 60, 80, 0.2); 
+    -moz-box-shadow: 2px 2px 8px 0px rgba(34, 60, 80, 0.2); 
+    box-shadow: 2px 2px 8px 0px rgba(34, 60, 80, 0.2);
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    width: 42rem;
+    border-radius: 30px;
+
+    &__admin {
+        background-image: url('../images/user.png');
+        width: 15rem;
+        height: 15rem;
+        margin-right: 2rem;
+    }
+}
+
+
+.formItems {
+    display: flex;
+    flex-direction: column; 
+
+    &__enter {
+        font-size: 30px; 
+    }
+} 

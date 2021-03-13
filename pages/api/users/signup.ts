@@ -5,7 +5,7 @@ import {DatabaseManager} from "../../../utils/database";
 import db from "../../../lib/db";
 import Axios from "axios";
 import signin from "./signin";
-import { User } from "../../../interfaces/user";
+import { UserInterface } from "../../../interfaces/user";
 const bcrypt = require('bcryptjs');
 
 
@@ -20,8 +20,8 @@ const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
         const passwordCheck: string = checker.passwordChecker(password, confirmPassword)
         if (passwordCheck !== "") return res.status(400).json({msg: passwordCheck})
 
-        const existingUserByEmail: Array<User> = await dbManager.findElement("*", "public.users", "email", email)
-        const existingUserByPhone: Array<User> = await dbManager.findElement("*", "public.users", "phone", phone)
+        const existingUserByEmail: Array<UserInterface> = await dbManager.findElement("*", "public.users", "email", email)
+        const existingUserByPhone: Array<UserInterface> = await dbManager.findElement("*", "public.users", "phone", phone)
 
         if (existingUserByEmail.length === 1) return res.status(400).json({msg: "Користувач з даною поштою вже існує."})
         if (existingUserByPhone.length === 1) return res.status(400).json({msg: "Користувач з даним номером телефону вже існує."})

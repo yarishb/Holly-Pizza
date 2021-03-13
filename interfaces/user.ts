@@ -7,3 +7,13 @@ export interface UserInterface {
     password: string,
     phone:string
 }
+
+
+export interface InputInterface {
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+    phone: string,
+    is_staff: boolean
+}

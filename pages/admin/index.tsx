@@ -5,9 +5,11 @@ import {ErrorInterface} from '../../interfaces/error';
 import {UserInterface} from '../../interfaces/userManager';
 import { useRouter } from 'next/router';
 
+
+
 const adminPage = () => {
     const [adminData, setAdminData] = useState<UserInterface>()
-    const [error, seterror] = useState<ErrorInterface>({
+    const [error, setError] = useState<ErrorInterface>({
         open: false,
         text: ''
     })
@@ -15,18 +17,15 @@ const adminPage = () => {
 
 
     useEffect(() => {
-         try {
-            const userManager = new User()
-            userManager.checkLogged().then((res: UserRes) => {
-                if (!res.data.is_staff) {
-                    router.push('admin/sign')
-                }
-                setAdminData(res.data)
-            })
-         } catch (err) {
-             console.log(err);
-         }
+        const userManager = new User()
+        userManager.checkLogged().then((res: UserRes | undefined) => {
+            if (res === undefined || !res.data.is_staff) {
+                router.push(`admin/sign/${true}`)
+            }
+            else setAdminData(res.data)
+        })
     }, [])
+
 
     return (
         <>

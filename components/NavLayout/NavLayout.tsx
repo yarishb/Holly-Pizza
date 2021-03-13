@@ -6,15 +6,16 @@ import {useRouter} from 'next/router';
 import Axios from 'axios';
 import Error from '../Error/Error';
 import {ErrorInterface} from '../../interfaces/error'
+import User from "../../utils/user";
 
 
 export default function navLayout({children}) {
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [link, setLink] = useState<string>('/')
 
-    const modalRef = useRef<HTMLHeadingElement>()
-    const errorRef = useRef<HTMLHeadingElement>()
+    const modalRef = useRef<HTMLHeadingElement>()    
     const router = useRouter()
+    const userManager = new User()
 
     const [error, setError] = useState<ErrorInterface>({
         text: '',
@@ -48,15 +49,12 @@ export default function navLayout({children}) {
     const sign = async(e, path, data) => {
         e.preventDefault()
 
-
         try {
-            const res = await Axios.post(`${process.env.API_URL}/users/${path}`, data)
-            localStorage.setItem('x-auth-token', res.data.token)
-            await router.push('/account')
-
+            userManager.sign(path, data)     
+            router.push(`admin/sign/${true}`)       
         } catch (err) {
             setError({
-                text: err.response.data.msg,
+                text: err,
                 open: true
             })         
             
@@ -75,7 +73,7 @@ export default function navLayout({children}) {
                 <>
                     {
                         error.open &&
-                            <Error ref={errorRef} text={error.text}/>
+                            <Error text={error.text}/>
                     }
                     <div className={styles.modalCenter}>
                         <div ref={modalRef} className={`${styles.modal} ${styles.modal_open}`}>

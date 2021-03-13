@@ -2,22 +2,12 @@ import React, {useEffect, useState} from 'react';
 import styles from './modal.module.scss';
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import {InputInterface} from '../../interfaces/user'
 
-import Axios from "axios";
-import {useRouter} from "next/router";
-
-interface Input {
-    name: string,
-    email: string,
-    password: string,
-    confirmPassword: string,
-    phone: string,
-    is_staff: boolean
-}
 
 const ModalSign = ({sign}) => {
     const [signup, setSignUp] = useState<boolean>(true)
-    const [data, setData] = useState<Input>({
+    const [data, setData] = useState<InputInterface>({
 		name: '',
 		email: '',
 		password: '',

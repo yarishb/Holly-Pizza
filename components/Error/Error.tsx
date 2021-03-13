@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './error.module.scss';
 
 
-const Error = ({text, ref}) => {
+const Error = ({text}) => {
     return (
-        <div ref={ref} className={styles.error}>
+        <div className={styles.error}>
             {text}
         </div>
     )

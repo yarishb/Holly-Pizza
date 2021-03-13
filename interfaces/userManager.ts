@@ -8,7 +8,8 @@ export interface UserInterface {
     email: string,
     phone: string,
     orders: object,
-    is_staff: boolean
+    is_staff: boolean,
+    token: string 
 }
 
 export interface UserRes {
