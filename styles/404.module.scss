@@ -7,17 +7,31 @@
     left: 0;
     display: flex;
     justify-content: center;
+    overflow: hidden;
 }
 
 
 .main {
-    width: 60%;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 
     &__number {
-        font-size: 500px;
+        font-size: 450px;
         color: $pink;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 320px) {
+    .main {
+        &__number {
+            font-size: 10px;
+        }
     }
 }

@@ -1,15 +1,20 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {DatabaseManager} from "../../../utils/database";
 import db from "../../../lib/db";
-import {User} from '../../../interfaces/user';
+import {UserInterface} from '../../../interfaces/user';
 
 const jwt_decode = require('jwt-decode');
 
 const getUser = async(req: NextApiRequest, res: NextApiResponse) => {
      try {
         const dbManager = new DatabaseManager(db)
-        const decodedJwt = jwt_decode(req.headers['x-auth-token']);
-        const user: Array<User> = await dbManager.findElement("*", "public.users", "id", decodedJwt.id)
+        const {id} = req.body
+        let token: string;
+        token = id ?? jwt_decode(req.headers['x-auth-token']).id;
+        
+        const decodedJwt = token !== undefined ? token : id;
+        
+        const user: Array<UserInterface> = await dbManager.findElement("*", "public.users", "id", decodedJwt)
         if (user.length === 0) return res.status(400).json({msg: "Ви не ввійшли в свій аккаунт."})    
 
         res.send({

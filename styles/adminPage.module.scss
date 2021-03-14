@@ -1,0 +1,48 @@
+@import './variables/variables.scss';
+
+.items {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+
+.adminMenu { 
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3.3rem;
+    background-color: $pink;
+    -webkit-box-shadow: 12px 0px 8px 0px rgba(34, 60, 80, 0.1); 
+    -moz-box-shadow: 12px 0px 8px 0px rgba(34, 60, 80, 0.1); 
+    box-shadow: 12px 0px 8px 0px rgba(34, 60, 80, 0.1);
+
+    &__pizza {
+        background-image: url('../images/pizza.png');        
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    &__menuImage {
+        width: 2.3rem;
+        height: 2.3rem;
+        margin-left: .5rem;
+        margin-top: 1rem;
+    }
+
+    &__users {
+        background-image: url('../images/user.png');
+    }
+
+    &__orders {
+        background-image: url('../images/bucket.png');
+    }
+}
+
+.children {
+    margin-left: 4rem;
+}

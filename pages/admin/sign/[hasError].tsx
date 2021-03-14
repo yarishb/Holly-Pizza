@@ -40,7 +40,7 @@ export default function Sign({err}) {
     }
 
     useEffect(() => {
-        err ?? setErrorHandler('Доступ заборонений, спробуйте ввійти.')
+        err && setErrorHandler('Доступ заборонений, спробуйте ввійти.')
     }, [err])
 
 

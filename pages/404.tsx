@@ -1,9 +1,19 @@
 import Pizza from '../components/PizzaRotate/Pizza';
 import styles from '../styles/404.module.scss';
-import {useRef} from 'react';
+import { useRef, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function undefinedPage() {
     const ref = useRef()
+    const router = useRouter()
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            router.back()
+        }, 3000);
+    }, [])
+
 
     return (
         <>

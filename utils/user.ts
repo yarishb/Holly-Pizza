@@ -11,6 +11,12 @@ interface signInData {
 class User {
     async checkLogged () {
         let token: string | null = localStorage.getItem('x-auth-token')
+
+        if (token === null) {
+            localStorage.setItem('x-auth-token', "")
+            token = ''
+        }
+
         const tokenRes: TokenRes = await Axios.post(
             `${process.env.API_URL}/users/validToken`,
             null, {headers: {'x-auth-token': token}}
