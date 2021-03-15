@@ -46,7 +46,6 @@ export class DatabaseManager {
             `SELECT ${select} FROM ${table} WHERE ${condition_key} = $1`,
             [condition_value]
             );
-
         return rows
     }
 

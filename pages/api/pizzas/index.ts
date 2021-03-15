@@ -1,17 +1,11 @@
-import db from '../../../lib/db';
-import {DatabaseManager} from "../../../utils/database";
 import {NextApiRequest, NextApiResponse} from "next";
-
+import { Fields } from "../../../interfaces/newPizza";
+import Helper from "../../../utils/helper";
 
 const getPizzas = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const dbManager = new DatabaseManager(db)
-        const rows = await dbManager.selectData("public.pizzas")
-
-        if (rows.length === 0) {
-            return res.status(400).json({msg: "No elements in database"})
-        }
-
+        const helper = new Helper()
+        const rows = await helper.getAllItemsFromTable('public.pizzas')
         res.json(rows)
     } catch (err) {
         return res.json(err)
