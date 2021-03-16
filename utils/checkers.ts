@@ -7,13 +7,13 @@ interface createPizzaReturn {
 
 class Checker {
      public createPizzaChecker(image, newPizza: Fields): createPizzaReturn  {
-        const { name, description, price, category, carbohydrates, protein, fat, weight } = newPizza
+        const { name, description, price, categories, carbohydrates, protein, fat, weight } = newPizza
         
         if (!image) return {status: false, message: "Загрузіть фото піци."}
         if (!name) return {status: false,message: "Введіть назву піци."}
         if (!description) return {status: false, message: "Введіть опис піци."}
         if (!price) return {status: false, message: "Введіть ціну піци."}
-        if (!category) return {status: false, message: "Введіть категорії піци."}
+        if (!categories) return {status: false, message: "Введіть категорії піци."}
         if (!weight) return {status: false, message: "Введіть вагу піци."}
         if (!protein) return {status: false, message: "Введіть кількість білків на 100г піци."}
         if (!fat) return {status: false, message: "Введіть кількість жирів на 100г піци."}

@@ -7,25 +7,38 @@ export interface File {
     hash: string | 'sha1' | 'md5' | 'sha256' | null;
   }
 
-export interface Fields {
-    image: string
+
+export interface PizzaFields {
+    file: any,
     name: string,
     description: string,
     price: number,
     category: string,
-    timeStamp: string,
-    orders: number,
+    categories: any,
     protein: number,
     fat: number,
     carbohydrates: number,
     weight: number,
-    size: string
+    size: string,
 }
+
+export interface Fields extends PizzaFields {
+    image: string
+    timeStamp: string,
+    orders: number,
+}
+
+
 
 export interface NewPizza {
     files: {
-        image: File
+        file: File
     }
     fields: Fields
 }
 
+export interface PizzasRes {
+    data: Fields[],
+    status: number,
+    statusText: string
+}

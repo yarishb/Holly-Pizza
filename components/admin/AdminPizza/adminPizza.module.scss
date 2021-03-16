@@ -1,0 +1,15 @@
+@import '../../../styles/variables/variables';
+
+.addPizza {
+  cursor: pointer;
+  position: absolute;
+  width: 8rem;
+  height: 3rem;
+  margin-top: 10rem;
+  margin-left: 3rem;
+  background-color: $green;
+  border: 0;
+  font-size: 17px;
+  border-radius: 10px;
+  color: $white;
+}

@@ -1,7 +1,9 @@
+import AdminSearch from "../AdminSearcher/AdminSearch";
+
 export default function AdminOrders() {
     return (
         <div>
-            orders
+            {/*<AdminSearch  />*/}
         </div>
     )
 }

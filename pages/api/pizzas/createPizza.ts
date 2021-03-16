@@ -4,11 +4,12 @@ import Checker from '../../../utils/checkers';
 import db from '../../../lib/db';
 import {DatabaseManager} from "../../../utils/database";
 
-const moment = require('moment')
+
+const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
-const slugify = require('slugify')
+const slugify = require('slugify');
 
 export const config = {
     api: {
@@ -23,7 +24,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
             const checkerClass = new Checker
 
             const timeStamp: string = moment().format('DD-MM-YYYY')
-            const imageTimeStamp = moment().format('hh:mm:ss')
+            const imageTimeStamp = moment().format('hh:mm')
         
             const fileTypes: Array<string> = ['image/jpeg', 'image/png', 'image/jpg'];
             const validateType = (imageType) => {
@@ -36,10 +37,9 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
 
             const MainParser = new Promise((resolve, reject) => {
                 const form = formidable({
-                    multiple: true,
                     uploadDir: `./images/media/${timeStamp}`
-                })            
-                        
+                })
+
                     
                 form.keepExtensions = true
                 form.keepFileName = true
@@ -59,18 +59,17 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                 })
             
                 form.parse(req, (err, fields, files) => {
-                    if (err) return reject(err.message)
                     resolve({fields, files})
                 })
             })
 
             MainParser.then((data: NewPizza) => {   
-                const image: string = data.files.image.path
-
-                let {name, description, price, category, protein, fat, carbohydrates, weight, size} = data.fields
-
+                const image: string = data.files.file.name
+                let {name, description, price, categories, protein, fat, carbohydrates, weight, size} = data.fields
+                categories = categories.split(' ')
                 const checkedData = checkerClass.createPizzaChecker(image, data.fields)
                 if (checkedData.status === false) {
+                    console.log(checkedData.message)
                     return res.status(400).json({msg: checkedData.message})
                 }
                   
@@ -78,11 +77,12 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                     "public.pizzas",
                     "image, name, description, price, category, last_update, orders, protein, fat, carbohydrates, weight, size",
                     "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
-                    [image, name, description, price, category, timeStamp, 0, protein, fat, carbohydrates, weight, size]
+                    [image, name, description, price, categories, timeStamp, 0, protein, fat, carbohydrates, weight, size]
                 )
             })
             
             MainParser.catch((err) => {
+                console.log(err)
                 return res.status(400).json(err.message)
             })
 

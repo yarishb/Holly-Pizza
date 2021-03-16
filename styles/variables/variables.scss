@@ -2,6 +2,7 @@ $white: #fff;
 $pink: #F05454;
 $blue: #0d335d;
 $grey: #bbbbbb;
+$green: #16c79a;
 
 
 .backgroundImage {
@@ -18,4 +19,11 @@ $grey: #bbbbbb;
   height: 100%;
   left: 0;
   top: 0;
+}
+
+
+.boxShadow {
+  -webkit-box-shadow: 2px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 2px 0px 8px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 2px 0px 8px 0px rgba(34, 60, 80, 0.2);
 }

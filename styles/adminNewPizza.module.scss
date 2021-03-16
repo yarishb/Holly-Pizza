@@ -1,0 +1,105 @@
+@import '../styles/variables/variables';
+
+
+.newPizza {
+  display: flex;
+  flex-direction: row;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &__upload {
+    cursor: pointer;
+    border: 0;
+    text-decoration: none;
+    background-color: rgba($blue, .8);
+    color: $white;
+    width: 10rem;
+    font-size: 13px;
+    padding: .7rem;
+    border-radius: 10px;
+  }
+
+  &__uploadImage {
+    display: flex;
+    flex-direction: row;
+
+    &__imageName {
+      margin-top: .7rem;
+      margin-left: .5rem;
+    }
+  }
+
+  &__categories {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    max-width:30rem;
+    max-height: 70rem;
+    &__category {
+      position: relative;
+      margin-left: .5rem;
+      margin-top: .5rem;
+      padding: .8rem;
+      height: 1.5rem;
+      border-radius: 5px;
+    }
+
+    &__categoryDelete {
+      cursor: pointer;
+      position: absolute;
+      top: -4px;
+      right: 1px;
+      font-size: 12px;
+      color: red;
+    }
+  }
+
+  &__categoryButton {
+    cursor: pointer;
+    background-color: $blue;
+    color: $white;
+    border: 0;
+    text-decoration: none;
+    font-size: 20px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+    margin-left: .3rem;
+  }
+
+  &__categoryBox {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3rem;
+    &__categoryField {
+      font-size: 25px;
+      margin-left: .5rem;
+    }
+  }
+
+
+  .sizes {
+    display: flex;
+    flex-direction: row;
+    margin-top: .5rem;
+    &__size {
+      cursor: pointer;
+      text-decoration: none;
+      border: 0;
+      background-color: $blue;
+      color: $white;
+      padding: .7rem 1rem .7rem  1rem;
+      border-radius: 10px;
+      transition: .4s;
+
+      &:hover {
+        @extend .boxShadow;
+      }
+    }
+  }
+}
+

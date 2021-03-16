@@ -1,14 +1,10 @@
 import {useEffect, useState} from 'react';
 import Axios from 'axios';
-import {Fields} from '../../../interfaces/newPizza';
+import {Fields, PizzasRes} from '../../../interfaces/newPizza';
 import AdminSearch from '../AdminSearcher/AdminSearch';
+import styles from './adminPizza.module.scss';
+import Link from "next/link";
 
-
-interface PizzasRes {
-    data: Fields[],
-    status: number,
-    statusText: string
-}
 
 interface FindPizza {
     pizzaName: string,
@@ -41,7 +37,7 @@ export default function AdminPizza() {
 
     const submit = (e) => {
         e.preventDefault()
-        
+
         try {
             const body = {"id": findPizza.pizzaId, "name": findPizza.pizzaName}
             Axios.post(`${process.env.API_URL}/pizzas/getPizza`, body).then((data: PizzasRes) => {
@@ -55,8 +51,7 @@ export default function AdminPizza() {
 
     return (
         <div>
-            <AdminSearch 
-
+            <AdminSearch
                 firstInputData={{
                     placeholder: "Знайти піцу за назвою", 
                     name: "pizzaName", 
@@ -72,7 +67,9 @@ export default function AdminPizza() {
                 }}
 
                 submit={submit}
-            />            
+            />   
+            {console.log(data)}
+            <Link href={'/admin/newPizza'}><button className={styles.addPizza}>Нова піца</button></Link>
         </div>
     )
 }
