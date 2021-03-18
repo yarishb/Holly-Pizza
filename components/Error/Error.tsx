@@ -2,9 +2,14 @@ import React from 'react';
 import styles from './error.module.scss';
 
 
-const Error = ({text}) => {
+interface Error {
+    text: string,
+    status: number
+}
+
+const Error = ({text, status}: Error) => {
     return (
-        <div className={styles.error}>
+        <div className={styles.error} style={{backgroundColor: status===200 && 'green'}}>
             {text}
         </div>
     )

@@ -20,7 +20,8 @@ const adminPage = () => {
     const [adminData, setAdminData] = useState<UserInterface>()
     const [error, setError] = useState<ErrorInterface>({
         open: false,
-        text: ''
+        text: '',
+        status: 0
     })
     const [manageWindow, setManageWindow] = useState<manageWindow>({
         pizza: true,
@@ -40,57 +41,63 @@ const adminPage = () => {
         })
     }, [])
 
+    if (adminData) {
+        return (
+            <>
+                <Head>
+                    <title>Holly Pizza | Admin</title>
+                </Head>
+                <div className={styles.items}>
+                    <div className={styles.adminMenu}>
+                        <div onClick={() =>
+                            setManageWindow({
+                                pizza: true,
+                                users: false,
+                                orders: false
+                            })}
+                             className={`${styles.adminMenu__pizza} ${styles.backgroundImage}`}>
+                        </div>
+
+                        <div onClick={() =>
+                            setManageWindow({
+                                pizza: false,
+                                users: true,
+                                orders: false
+                            })}
+                             className={`${styles.adminMenu__users} ${styles.backgroundImage} ${styles.adminMenu__menuImage}`}>
+                        </div>
+
+                        <div onClick={() =>
+                            setManageWindow({
+                                pizza: false,
+                                users: false,
+                                orders: true})}
+                             className={`${styles.adminMenu__orders} ${styles.backgroundImage} ${styles.adminMenu__menuImage}`}>
+                        </div>
+
+                    </div>
+                    <div className={styles.children}>
+                        {
+                            manageWindow.pizza &&
+                            <AdminPizza />
+                        }
+                        {
+                            manageWindow.users &&
+                            <AdminUsers />
+                        }
+                        {
+                            manageWindow.orders &&
+                            <AdminOrders />
+                        }
+                    </div>
+                </div>
+            </>
+        )
+    }
+
 
     return (
-        <>
-            <Head>
-                <title>Holly Pizza | Admin</title>
-            </Head>
-            <div className={styles.items}>
-                <div className={styles.adminMenu}>
-                    <div onClick={() => 
-                        setManageWindow({
-                            pizza: true, 
-                            users: false, 
-                            orders: false
-                        })}
-                        className={`${styles.adminMenu__pizza} ${styles.backgroundImage}`}>                    
-                    </div>
-
-                    <div onClick={() => 
-                        setManageWindow({
-                            pizza: false, 
-                            users: true, 
-                            orders: false
-                        })} 
-                        className={`${styles.adminMenu__users} ${styles.backgroundImage} ${styles.adminMenu__menuImage}`}>
-                    </div>
-
-                    <div onClick={() => 
-                        setManageWindow({
-                            pizza: false, 
-                            users: false, 
-                            orders: true})} 
-                        className={`${styles.adminMenu__orders} ${styles.backgroundImage} ${styles.adminMenu__menuImage}`}>
-                    </div>
-
-                </div>  
-                <div className={styles.children}>
-                    {
-                        manageWindow.pizza &&
-                            <AdminPizza />
-                    }
-                    {
-                        manageWindow.users &&
-                            <AdminUsers />
-                    }
-                    {
-                        manageWindow.orders &&
-                            <AdminOrders />
-                    }
-                </div>
-            </div>
-        </>
+        <></>
     )
 }
 

@@ -16,8 +16,8 @@ const MainPage = () => {
     )
 }
 
-/* TODO: loader, bucket, profile, menu,
-    addPizza, pizzaSlider,changeUserProps, changePizzaProps,
+/* TODO: bucket, profile, menu,
+    pizzaSlider,changeUserProps, changePizzaProps,
     orderPizza, userOrders, pizzaOrders
  */
 

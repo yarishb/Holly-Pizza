@@ -4,7 +4,7 @@ import {Fields, PizzasRes} from '../../../interfaces/newPizza';
 import AdminSearch from '../AdminSearcher/AdminSearch';
 import styles from './adminPizza.module.scss';
 import Link from "next/link";
-
+import Image from 'next/image'
 
 interface FindPizza {
     pizzaName: string,
@@ -67,8 +67,10 @@ export default function AdminPizza() {
                 }}
 
                 submit={submit}
-            />   
-            {console.log(data)}
+            />
+            <div>
+                {data && <Image src={`${data[data.length-1].image}`}  width="500" height="500" />}
+            </div>
             <Link href={'/admin/newPizza'}><button className={styles.addPizza}>Нова піца</button></Link>
         </div>
     )

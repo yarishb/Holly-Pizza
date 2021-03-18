@@ -39,6 +39,7 @@ class User {
         try {
             const res: UserRes = await Axios.post(`${process.env.API_URL}/users/${path}`, data)
             localStorage.setItem('x-auth-token', res.data.token)
+            return res
         } catch (err) {
             return err.response.data.msg
         }

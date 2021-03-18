@@ -38,7 +38,7 @@ const ModalSign = ({sign}) => {
 				<Input value={data.email} name={'email'} onChange={inputHandler} type={'email'} placeholder={'Введіть email.'}/>
 				<Input value={data.password} name={'password'} onChange={inputHandler} type={'password'} placeholder={'Введіть пароль.'}/>
                 {signup && <Input value={data.confirmPassword} name={'confirmPassword'} onChange={inputHandler} type={'password'}
-                        placeholder={'Введіть пароль ще разю.'}/>}
+                        placeholder={'Введіть пароль ще раз.'}/>}
                 {signup && <Input value={data.phone} name={'phone'} onChange={inputHandler} type={'phone'}
                         placeholder={'Введіть ваш номер телефону.'}/>}
 			    <div className={styles.changeType} onClick={() => setSignUp(!signup)}>{signup? "Вже зареєстровані? Спробуйте ввійти в аккаунт!" : "Ще не зареєстровані? Спробуйте зареєструватись!"}</div>

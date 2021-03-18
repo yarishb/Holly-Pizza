@@ -1,4 +1,5 @@
 export interface ErrorInterface {
     text: string,
-    open: boolean
+    open: boolean,
+    status: number
 }

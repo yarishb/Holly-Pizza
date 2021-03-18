@@ -31,13 +31,13 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                 return fileTypes.includes(imageType)
             }
             
-            fs.mkdir(`./images/media/${timeStamp}`, {recursive: true}, (err) => {    
+            fs.mkdir(`./public/media/${timeStamp}`, {recursive: true}, (err) => {
                 if (err) return res.status(500).json({msg: "Сталась помилка при створенні папки."})  
             })     
 
             const MainParser = new Promise((resolve, reject) => {
                 const form = formidable({
-                    uploadDir: `./images/media/${timeStamp}`
+                    uploadDir: `./public/media/${timeStamp}`
                 })
 
                     
@@ -54,7 +54,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                     }
                     
                     if (validateType(file.type) && file.size <=1048576) {
-                        file.path = path.join(`images/media/${timeStamp}`, slugify(timeStamp + "_" + imageTimeStamp + '_' + file.name))
+                        file.path = path.join(`public/media/${timeStamp}`, slugify(timeStamp + "_" + imageTimeStamp + '_' + file.name))
                     }
                 })
             
@@ -63,13 +63,14 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                 })
             })
 
-            MainParser.then((data: NewPizza) => {   
-                const image: string = data.files.file.name
+            MainParser.then((data: NewPizza) => {
+                const filePath = data.files.file.path
+                const image: string = filePath.slice(6, filePath.length)
+
                 let {name, description, price, categories, protein, fat, carbohydrates, weight, size} = data.fields
-                categories = categories.split(' ')
+                categories = categories.split(',')
                 const checkedData = checkerClass.createPizzaChecker(image, data.fields)
                 if (checkedData.status === false) {
-                    console.log(checkedData.message)
                     return res.status(400).json({msg: checkedData.message})
                 }
                   
@@ -79,15 +80,16 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                     "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
                     [image, name, description, price, categories, timeStamp, 0, protein, fat, carbohydrates, weight, size]
                 )
+
+                dbManager.selectData('public.pizzas').then(data => {
+                    res.json(data)
+                })
             })
             
             MainParser.catch((err) => {
-                console.log(err)
-                return res.status(400).json(err.message)
+                return res.status(400).json({msg: err.message})
             })
 
-            const data = await dbManager.selectData('public.pizzas')
-            res.json(data)
         } catch (err) {
             return console.log(err);
         }  

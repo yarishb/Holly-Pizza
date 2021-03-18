@@ -30,7 +30,8 @@ const newPizza = () => {
 
     const [error, setError] = useState<ErrorInterface>({
         open: false,
-        text: ''
+        text: '',
+        status: 0
     })
 
 
@@ -44,6 +45,18 @@ const newPizza = () => {
         })
     }
 
+
+    const setErrorHandler = (msg: string, status: number) => {
+        setError({
+            open: true,
+            text: msg,
+            status: status
+        })
+        setTimeout(() => {
+            setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
+        }, 2500)
+    }
+
     const loadImage = (e) => {
         const fileTypes: Array<string> = ['image/jpeg', 'image/png', 'image/jpg'];
 
@@ -54,13 +67,7 @@ const newPizza = () => {
             })
 
         } else {
-            setError({
-                open: true,
-                text: "Недоступний тип картинки. Спробуйте jpeg або png."
-            })
-            setTimeout(() => {
-                setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
-            }, 2500)
+           setErrorHandler("Недоступний тип картинки. Спробуйте jpeg або png.", 400)
         }
     }
 
@@ -104,7 +111,6 @@ const newPizza = () => {
         data.append('file', fields.file)
         Object.keys(fields).forEach((name: string) => {
             if (name !== 'category') {
-                console.log(fields[name])
                 data.append(name, fields[name])
             }
         })
@@ -115,17 +121,11 @@ const newPizza = () => {
             {headers: {"Content-type": 'multipart/form-data'}})
 
         newPizzaReq.then((data: PizzasRes) => {
-            console.log(data)
+            setErrorHandler("Піца була успішно добавлена", 200)
         })
 
         newPizzaReq.catch((err) => {
-            setError({
-                open: true,
-                text: err.message
-            })
-            setTimeout(() => {
-                setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
-            }, 2500)
+            setErrorHandler(err.message, 400)
         })
     }
 
@@ -136,7 +136,7 @@ const newPizza = () => {
             </Head>
                 {
                     error.open &&
-                        <Error text={error.text}/>
+                        <Error status={error.status} text={error.text}/>
                 }
                 <div className={styles.newPizza}>
                     <form onSubmit={(e) => onSubmit(e)} className={styles.form}>
