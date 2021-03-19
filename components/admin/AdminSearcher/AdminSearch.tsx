@@ -16,7 +16,6 @@ interface DataIn {
 }
 
 export default function AdminSearch({firstInputData, secondInputData, submit}: DataIn) {
-
     return (
         <>
             <div className={styles.adminSearch}>

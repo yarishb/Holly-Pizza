@@ -21,6 +21,13 @@ $green: #16c79a;
   top: 0;
 }
 
+.transitionEffect {
+  -webkit-transition: .3s;
+  -moz-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
 
 .boxShadow {
   -webkit-box-shadow: 2px 0px 8px 0px rgba(34, 60, 80, 0.2);

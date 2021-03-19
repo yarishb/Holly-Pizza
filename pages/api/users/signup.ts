@@ -14,7 +14,6 @@ const signup = async(req: NextApiRequest, res: NextApiResponse)=> {
         const checker = new Checker()
         const dbManager = new DatabaseManager(db)
         let {email, password, confirmPassword, name, is_staff, phone}: Signup = req.body
-
         if (!email || !password || !confirmPassword || !name || !phone) return res.status(400).json({msg: "Введіть всі поля."})
 
         const passwordCheck: string = checker.passwordChecker(password, confirmPassword)

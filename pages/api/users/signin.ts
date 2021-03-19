@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import {Signin} from "../../../interfaces/signin";
 import {DatabaseManager} from "../../../utils/database";
 import db from "../../../lib/db";
-import {User} from "../../../interfaces/user";
+import {UserInterface} from "../../../interfaces/user";
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 
@@ -13,8 +13,8 @@ const signin = async(req:NextApiRequest, res:NextApiResponse) => {
         let {email, password}: Signin = req.body
         if (!email || !password) return res.status(400).json({msg: "Введіть всі поля."})
 
-        const user: Array<User> = await dbManager.findElement("*", "public.users", "email", email)
-        if (user.length === 0) return res.status(400).json({msg: "Такого аккаунта не існує, попробуйте зареєструватись."})
+        const user: Array<UserInterface> = await dbManager.findElement("*", "public.users", "email", email)
+        if (user.length === 0) return res.status(400).json({msg: "Такого аккаунта не існує, спробуйте зареєструватись."})
 
         const ifMatch: boolean = await bcrypt.compare(password, user[0].password)
         if (!ifMatch) return res.status(400).json({msg: "Паролі не співпадають."})

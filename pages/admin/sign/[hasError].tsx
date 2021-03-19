@@ -38,7 +38,7 @@ export default function Sign({err}) {
             setError({
                 open: false,
             } as Pick<ErrorInterface, keyof ErrorInterface>)
-        }, 2500);
+        }, 3000);
     }
 
     useEffect(() => {
@@ -49,9 +49,14 @@ export default function Sign({err}) {
     const signAdmin = async (e) => {
         e.preventDefault()
         const resData = userManager.sign('signin', data)
-        resData.then(() => {
-            setErrorHandler('Доступ успішно надано.', 200)
-            setTimeout(() => router.back(), 2500)
+        resData.then((res) => {
+            if (res.status !== 200) {
+                setErrorHandler(res.data.msg, 400)
+            }
+            else {
+                setErrorHandler('Доступ успішно надано.', 200)
+                setTimeout(() => router.back(), 2500)
+            }
         })
     }
 

@@ -13,13 +13,14 @@ export interface PizzaFields {
     name: string,
     description: string,
     price: number,
-    category: string,
+    category: string[] | string,
     categories: any,
     protein: number,
     fat: number,
     carbohydrates: number,
     weight: number,
     size: string,
+    id?: number
 }
 
 export interface Fields extends PizzaFields {

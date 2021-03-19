@@ -30,7 +30,6 @@ class User {
 				{headers: {'x-auth-token': token}}
 			)
         }
-
         return userRes
     }
 
@@ -41,7 +40,7 @@ class User {
             localStorage.setItem('x-auth-token', res.data.token)
             return res
         } catch (err) {
-            return err.response.data.msg
+            return err.response
         }
     }
 }

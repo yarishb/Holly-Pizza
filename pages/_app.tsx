@@ -16,4 +16,5 @@ const HollyPizza = ({Component, pageProps}: AppProps) => {
     )
 }
 
+
 export default HollyPizza
