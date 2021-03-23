@@ -3,3 +3,9 @@ export interface ErrorInterface {
     open: boolean,
     status: number
 }
+
+
+export interface ErrorResponse {
+    msg: string,
+    status: number
+}

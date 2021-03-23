@@ -1,5 +1,7 @@
 @import '../../../styles/variables/variables';
 
+
+
 .addPizza {
   cursor: pointer;
   position: absolute;
@@ -17,10 +19,10 @@
 
 .pizzas {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   position: absolute;
-  margin-top: 15%;
+  margin-top: 18rem;
+  left: 2.5rem;
 
   &__pizzaEl {
     padding-top: 1rem;

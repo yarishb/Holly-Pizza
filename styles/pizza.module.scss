@@ -1,0 +1,86 @@
+@import './variables/variables';
+
+.pizzaPage {
+  margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 7%;
+
+    &>* {
+      margin-top: 1.5rem;
+    }
+
+    &__top {
+      &__name {
+        font-size: 30px;
+      }
+    }
+    
+    &__desc {
+      font-size: 15px;
+      max-width: 25rem;
+      color: rgba(black, .7);
+    }
+
+    &__includes {
+      display: flex;
+      flex-direction: row;
+
+      &>* {
+        color: grey;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid rgba(grey, .6);
+        padding-right: 1rem;
+      }
+      &>*:not(:first-child) {
+        margin-left: 1rem;
+      }
+
+      :last-child {
+         border: 0;
+      }
+
+      &__item {
+        margin-top: .3rem;
+        color: rgba(black, .7);
+      }
+    }
+
+    &__size {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: row;
+
+      &__sizeTitle {
+        font-size: 20px;
+      }
+
+      &__sizeItem {
+        font-size: 20px;
+        margin-left: .5rem;
+      }
+    }
+
+
+    &__orders {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__typeBox {
+      margin-left: -3.5rem;
+      margin-top: 1rem;
+    }
+
+    &__price {
+      font-size: 30px;
+      color: rgba(black, .7);
+    }
+  }
+}

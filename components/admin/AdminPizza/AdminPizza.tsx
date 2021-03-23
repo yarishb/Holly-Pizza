@@ -5,7 +5,7 @@ import AdminSearch from '../AdminSearcher/AdminSearch';
 import styles from './adminPizza.module.scss';
 import Link from "next/link";
 import Image from 'next/image'
-import {ErrorInterface} from "../../../interfaces/error";
+import {ErrorInterface, ErrorResponse} from "../../../interfaces/error";
 import Error from '../../Error/Error'
 
 interface FindPizza {
@@ -25,7 +25,7 @@ export default function AdminPizza() {
         open: false
     })
 
-    const setErrorHandler = (msg: string, status: number) => {
+    const setErrorHandler = (msg: string, status: number, timeout: number=2500) => {
         setError({
             open: true,
             text: msg,
@@ -33,7 +33,7 @@ export default function AdminPizza() {
         })
         setTimeout(() => {
             setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
-        }, 2500)
+        }, timeout)
     }
 
     useEffect(() => {
@@ -53,19 +53,19 @@ export default function AdminPizza() {
         })
     }
 
-    const submit = (e) => {
+    const submit = async(e) => {
         e.preventDefault()
         if  (findPizza.pizzaName !== '' || findPizza.pizzaId !== '') {
             try {
                 const body = {"id": findPizza.pizzaId, "name": findPizza.pizzaName}
-                Axios.post(`${process.env.API_URL}/pizzas/getPizza`, body).then((data: PizzasRes) => {
-                    setData(data.data.reverse())
-                })
+                const data: PizzasRes = await Axios.post(`${process.env.API_URL}/pizzas/getPizza`, body)
+                data && setData(data.data.reverse())
             } catch (err) {
-                console.log(err);
+                const errResData: ErrorResponse = err.response.data
+                setErrorHandler(errResData.msg, errResData.status)
             }
         } else {
-            setErrorHandler('Введіть поля пошуку', 400)
+            setErrorHandler('Введіть поля пошуку', 400, 4000)
         }
     }
 

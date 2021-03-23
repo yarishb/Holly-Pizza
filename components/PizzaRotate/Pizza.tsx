@@ -1,6 +1,6 @@
 import styles from './pizza.module.scss';
 
-export default function Pizza({pizzaRef, style=null}) {
+export default function Pizza({pizzaRef=undefined, style=null}) {
     return (
         <>
             <div className={styles.pizza}>

@@ -1,0 +1,14 @@
+@import '../../styles/variables/variables';
+
+.back {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: .7rem 1.5rem;
+  border: 3px solid rgba(grey, .05);
+  background-color: rgba($grey, .2);
+  font-size: 18px;
+  border-radius: 10px;
+  z-index: 10;
+}
