@@ -40,9 +40,6 @@ export default function navLayout({children}) {
             text: msg,
             status: status
         })
-        setTimeout(() => {
-            setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
-        }, 2500)
     }
 
 
@@ -74,10 +71,7 @@ export default function navLayout({children}) {
         <>
             {openModal &&
                 <>
-                    {
-                        error.open &&
-                            <Error status={error.status} text={error.text}/>
-                    }
+                    <Error status={error.status} text={error.text} open={error.open}/>
                     <div className={styles.modalCenter}>
                         <div ref={modalRef} className={`${styles.modal} ${styles.modal_open}`}>
                             <div>

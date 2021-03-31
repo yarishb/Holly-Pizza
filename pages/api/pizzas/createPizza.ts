@@ -3,13 +3,12 @@ import {NewPizza} from "../../../interfaces/newPizza";
 import Checker from '../../../utils/checkers';
 import db from '../../../lib/db';
 import {DatabaseManager} from "../../../utils/database";
+import {PizzaDataParser} from "../../../utils/pizza";
 
 
 const moment = require('moment');
-const path = require('path');
 const fs = require('fs');
-const formidable = require('formidable');
-const slugify = require('slugify');
+
 
 export const config = {
     api: {
@@ -22,48 +21,14 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
         try {
             const dbManager = new DatabaseManager(db)
             const checkerClass = new Checker
+            const parseHelper = new PizzaDataParser()
 
             const timeStamp: string = moment().format('DD-MM-YYYY')
             const imageTimeStamp = moment().format('hh:mm')
-        
-            const fileTypes: Array<string> = ['image/jpeg', 'image/png', 'image/jpg'];
-            const validateType = (imageType) => {
-                return fileTypes.includes(imageType)
-            }
-            
-            fs.mkdir(`./public/media/${timeStamp}`, {recursive: true}, (err) => {
-                if (err) return res.status(500).json({msg: "Сталась помилка при створенні папки."})  
-            })     
 
-            const MainParser = new Promise((resolve, reject) => {
-                const form = formidable({
-                    uploadDir: `./public/media/${timeStamp}`
-                })
+            const parsedFields = parseHelper.parseData(timeStamp, imageTimeStamp, req)
 
-                    
-                form.keepExtensions = true
-                form.keepFileName = true
-    
-                form.on("fileBegin", (name, file) => {
-                    if (!validateType(file.type)) {
-                        return reject({message: {msg: "Недоступний тип картинки. Спробуйте jpeg або png."}})
-                    }
-
-                    if (file.size >= 1048576) {
-                        return reject(({message: {msg: "Завеликий розмір картинки."}}))
-                    }
-                    
-                    if (validateType(file.type) && file.size <=1048576) {
-                        file.path = path.join(`public/media/${timeStamp}`, slugify(timeStamp + "_" + imageTimeStamp + '_' + file.name))
-                    }
-                })
-            
-                form.parse(req, (err, fields, files) => {
-                    resolve({fields, files})
-                })
-            })
-
-            MainParser.then((data: NewPizza) => {
+            parsedFields.then((data: NewPizza) => {
                 const filePath = data.files.file.path
                 const image: string = filePath.slice(6, filePath.length)
 
@@ -76,7 +41,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                   
                 dbManager.insertData(
                     "public.pizzas",
-                    "image, name, description, price, category, last_update, orders, protein, fat, carbohydrates, weight, size",
+                    "image, name, description, price, categories, last_update, orders, protein, fat, carbohydrates, weight, size",
                     "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
                     [image, name, description, price, categories, timeStamp, 0, protein, fat, carbohydrates, weight, size]
                 )
@@ -86,7 +51,7 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
                 })
             })
             
-            MainParser.catch((err) => {
+            parsedFields.catch((err) => {
                 return res.status(400).json({msg: err.message})
             })
 

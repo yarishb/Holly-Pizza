@@ -33,12 +33,6 @@ export default function Sign({err}) {
             text: msg,
             status: status
         })
-
-        setTimeout(() => {
-            setError({
-                open: false,
-            } as Pick<ErrorInterface, keyof ErrorInterface>)
-        }, 3000);
     }
 
     useEffect(() => {
@@ -76,9 +70,7 @@ export default function Sign({err}) {
             <Head>
                 Holly pizza | admin sign
             </Head>
-            {error.open && 
-                <Error status={error.status} text={error.text}/>
-            }
+            <Error status={error.status} text={error.text} open={error.open}/>
             <div className={styles.fullPage}>
                 <div className={styles.form}>
                     <div className={`${styles.form__admin} ${styles.backgroundImage}`} />

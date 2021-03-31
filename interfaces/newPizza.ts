@@ -13,7 +13,7 @@ export interface PizzaFields {
     name: string,
     description: string,
     price: number,
-    category: string[] | string,
+    category: any,
     categories: any,
     protein: number,
     fat: number,

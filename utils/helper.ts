@@ -4,10 +4,6 @@ import { UserInterface } from "../interfaces/user";
 import { Fields } from "../interfaces/newPizza";
 
 
-interface Error {
-    msg: string
-}
-
 class Helper {
     dbManager: any
     constructor() {

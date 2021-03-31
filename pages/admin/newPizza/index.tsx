@@ -8,11 +8,13 @@ import Input from "../../../components/Input/Input";
 import Error from "../../../components/Error/Error";
 import Button from "../../../components/Button/Button";
 
-import {NewPizza, PizzaFields, PizzasRes} from "../../../interfaces/newPizza";
+import {PizzaFields} from "../../../interfaces/newPizza";
 import {ErrorInterface} from "../../../interfaces/error";
 import Back from "../../../components/Back/Back";
 import Pizza from "../../../components/PizzaRotate/Pizza";
 import TypesBox from "../../../components/TypesBox/TypesBox";
+import AddCategory from "../../../components/admin/AdminPizza/addCategoryButton/AddCategory";
+import {fileTypes} from "../../../utils/variables";
 
 
 const newPizza = () => {
@@ -55,20 +57,14 @@ const newPizza = () => {
             text: msg,
             status: status
         })
-        setTimeout(() => {
-            setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
-        }, 2500)
     }
 
     const loadImage = (e) => {
-        const fileTypes: Array<string> = ['image/jpeg', 'image/png', 'image/jpg'];
-
         if (fileTypes.includes(e.target.files[0].type)) {
             setFields({
                 ...fields,
                 file: e.target.files[0]
             })
-
         } else {
            setErrorHandler("Недоступний тип картинки. Спробуйте jpeg або png.", 400)
         }
@@ -94,6 +90,7 @@ const newPizza = () => {
         const list = fields.categories.filter((item) => {
            return item !== category
         })
+        
         setFields({
             ...fields,
             categories: list
@@ -136,10 +133,7 @@ const newPizza = () => {
                 <title>Admin Page | new pizza</title>
             </Head>
             <div className={styles.fullPage}>
-                {
-                    error.open &&
-                    <Error status={error.status} text={error.text}/>
-                }
+                <Error status={error.status} text={error.text} open={error.open}/>
                 <Back />
                 <div className={styles.decoration}></div>
                 <Pizza style={{top: "8rem", right: "0rem"}}/>
@@ -188,16 +182,11 @@ const newPizza = () => {
                         type={'text'}
                         placeholder={'Введіть ціну в грн'}
                     />
-                    <div className={styles.form__categories__categoriesField}>
-                        <Input
-                            name={'category'}
-                            value={fields.category}
-                            onChange={newPizzaInputHandler}
-                            type={'text'}
-                            placeholder={'Добавити категорію'}
-                        />
-                        <button onClick={(e) => addCategory(e)} className={`${styles.form__categoryButton} ${styles.boxShadow}`}>+</button>
-                    </div>
+                    <AddCategory 
+                        value={fields.category}
+                        onChange={newPizzaInputHandler}
+                        addCategory={addCategory}
+                    />
                     <Input
                         value={fields.protein}
                         name={'protein'}

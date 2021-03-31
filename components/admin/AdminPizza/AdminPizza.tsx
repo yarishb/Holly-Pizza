@@ -25,15 +25,12 @@ export default function AdminPizza() {
         open: false
     })
 
-    const setErrorHandler = (msg: string, status: number, timeout: number=2500) => {
+    const setErrorHandler = (msg: string, status: number) => {
         setError({
             open: true,
             text: msg,
             status: status
         })
-        setTimeout(() => {
-            setError({open: false} as Pick<ErrorInterface, keyof  ErrorInterface>)
-        }, timeout)
     }
 
     useEffect(() => {
@@ -65,17 +62,14 @@ export default function AdminPizza() {
                 setErrorHandler(errResData.msg, errResData.status)
             }
         } else {
-            setErrorHandler('Введіть поля пошуку', 400, 4000)
+            setErrorHandler('Введіть поля пошуку', 400)
         }
     }
 
 
     return (
         <>
-            {
-                error.open &&
-                    <Error status={error.status} text={error.text}/>
-            }
+            <Error status={error.status} text={error.text} open={error.open}/>
             <AdminSearch
                 firstInputData={{
                     placeholder: "Знайти піцу за назвою", 

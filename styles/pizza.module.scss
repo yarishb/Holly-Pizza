@@ -6,18 +6,77 @@
   flex-direction: row;
   justify-content: center;
 
+  &__photo {
+    max-width: 35rem;
+    max-height: 35rem;
+  }
+
   &__info {
     display: flex;
     flex-direction: column;
     margin-left: 7%;
+
+    &__upload {
+      cursor: pointer;
+      border: 0;
+      text-decoration: none;
+      background-color: rgba($blue, .8);
+      color: $white;
+      width: 10rem;
+      font-size: 13px;
+      padding: .7rem;
+      border-radius: 10px;
+    }
+
+    &__uploadImage {
+      display: flex;
+      flex-direction: row;
+
+      &__imageName {
+        margin-top: .7rem;
+        margin-left: .5rem;
+      }
+    }
+
+
 
     &>* {
       margin-top: 1.5rem;
     }
 
     &__top {
+      position: relative;
+      display: flex;
+      flex-direction: row;
       &__name {
         font-size: 30px;
+      }
+      &__buttons {
+        position: absolute;
+        right: 10%;
+        display: flex;
+        flex-direction: row;
+
+        &__button {
+
+          &__cancel {
+            cursor: pointer;
+            font-size: 28px;
+            color: red;
+            margin-right: .5rem;
+          }
+
+          &__image {
+            height: 1.77rem;
+            width: 1.5rem;
+            background-image: url('../images/pngwing.com-2.png');
+          }
+
+          &__imageEdit {
+            width: 1.8rem;
+            background-image: url('../images/pngfind.com-phone-symbol-png-2755033.png');
+          }
+        }
       }
     }
     
@@ -46,7 +105,7 @@
          border: 0;
       }
 
-      &__item {
+      &__item { 
         margin-top: .3rem;
         color: rgba(black, .7);
       }
@@ -64,6 +123,11 @@
       &__sizeItem {
         font-size: 20px;
         margin-left: .5rem;
+
+        &__select {
+          font-size: 13px;
+          width: 10rem;
+        }
       }
     }
 
@@ -82,5 +146,20 @@
       font-size: 30px;
       color: rgba(black, .7);
     }
+  }
+}
+
+
+.pizzaPageInput {
+  font-size: 20px;
+  width: 4rem;
+  background-color: rgba(gray, .1);
+  border-radius: 3px;
+  padding: .2rem;
+}
+
+@media screen and (max-width: 400px) {
+  .pizzaPage {
+    flex-direction: column;
   }
 }

@@ -7,5 +7,14 @@
     color: $white;
     padding: 1rem 1rem 1rem 1rem;
     border-radius: 10px;
+
+
+    &__close {
+        cursor: pointer;
+        color: $white;
+        position: absolute;
+        right: .5rem;
+        top: .1rem;
+    }
 } 
 
