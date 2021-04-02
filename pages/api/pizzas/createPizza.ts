@@ -1,14 +1,12 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {NewPizza} from "../../../interfaces/newPizza";
+import {NewPizza, TimeStamp} from "../../../interfaces/newPizza";
 import Checker from '../../../utils/checkers';
 import db from '../../../lib/db';
 import {DatabaseManager} from "../../../utils/database";
 import {PizzaDataParser} from "../../../utils/pizza";
 
 
-const moment = require('moment');
-const fs = require('fs');
-
+const fs = require('fs')
 
 export const config = {
     api: {
@@ -22,13 +20,15 @@ const createPizzas = async(req: NextApiRequest, res: NextApiResponse) => {
             const dbManager = new DatabaseManager(db)
             const checkerClass = new Checker
             const parseHelper = new PizzaDataParser()
+            const {timeStamp, imageTimeStamp}: TimeStamp = parseHelper.getTimeStampAndPizzaTimeStamp()
 
-            const timeStamp: string = moment().format('DD-MM-YYYY')
-            const imageTimeStamp = moment().format('hh:mm')
+            fs.mkdir(`./public/media/${timeStamp}`, {recursive: true}, (err) => {
+                if (err) return res.status(400).json({msg: "Сталась помилка при створенні папки."})
+            })
 
             const parsedFields = parseHelper.parseData(timeStamp, imageTimeStamp, req)
 
-            parsedFields.then((data: NewPizza) => {
+            parsedFields.then((data: NewPizza) => {            
                 const filePath = data.files.file.path
                 const image: string = filePath.slice(6, filePath.length)
 

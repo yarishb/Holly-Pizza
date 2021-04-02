@@ -39,15 +39,11 @@
     }
 
 
-
-    &>* {
-      margin-top: 1.5rem;
-    }
-
     &__top {
       position: relative;
       display: flex;
       flex-direction: row;
+
       &__name {
         font-size: 30px;
       }

@@ -114,20 +114,19 @@ export default function Pizza({pizzaResData}) {
         try {
             e.preventDefault()
             const data = new FormData()
-            data.append('file', newFields.file)
+            data.append('file', newFields.file)            
+            
             Object.keys(newFields).forEach((name: string) => {
                 if (name !== 'category') {
                     data.append(name, newFields[name])
                 }
             })
-
+            
             const updatedPizzaFields = await Axios.post(
                 `${process.env.API_URL}/pizzas/updatePizza`,
                 data,
                 {headers: {"Content-type": 'multipart/form-data'}})
-
-
-            setPizzaData(updatedPizzaFields.data)
+            
         } catch (err) {
             console.log(err)
         }
@@ -144,190 +143,193 @@ export default function Pizza({pizzaResData}) {
                 <div className={styles.pizzaPage}>
                     <img src={`${pizzaData.image}`} className={styles.pizzaPage__photo} />
                     <div className={styles.pizzaPage__info}>
-                        <div className={styles.pizzaPage__info__top}>
-                            <div className={styles.pizzaPage__info__top__name}>
-                                {!turnChangePizza ? 
-                                    pizzaData.name 
-                                    : 
-                                    <Input value={newFields.name} placeholder={newFields.name} onChange={changeData} type={'text'} name={"name"}/>
-                                }
-                            </div>
-                            <div className={styles.pizzaPage__info__top__buttons}>
-                                <div className={styles.pizzaPage__info__top__button}>
+                        
+                            <div className={styles.pizzaPage__info__top}>
+                                <div className={styles.pizzaPage__info__top__name}>
                                     {!turnChangePizza ? 
-                                        <div onClick={() => {setTurnChangePizza(true)}} className={`
-                                            ${styles.pizzaPage__info__top__buttons__button__image} 
-                                            ${styles.backgroundImage} 
-                                            ${styles.pizzaPage__info__top__buttons__button__imageEdit}`}>
-                                        </div>
-                                    :
-                                        <div onClick={() => {setTurnChangePizza(false)}}
-                                            className={`
-                                                ${styles.pizzaPage__info__top__buttons__button__image} 
-                                                ${styles.pizzaPage__info__top__buttons__button__cancel}`}
-                                        >X</div>
+                                        pizzaData.name 
+                                        : 
+                                        <Input value={newFields.name} placeholder={newFields.name} onChange={changeData} type={'text'} name={"name"}/>
                                     }
                                 </div>
-                                <div className={styles.pizzaPage__info__top__buttons__button}>
-                                    <div onClick={() => deletePizza()} className={`
-                                        ${styles.pizzaPage__info__top__buttons__button__image} 
-                                        ${styles.backgroundImage}`}>
+                                <div className={styles.pizzaPage__info__top__buttons}>
+                                    <div className={styles.pizzaPage__info__top__button}>
+                                        {!turnChangePizza ? 
+                                            <div onClick={() => {setTurnChangePizza(true)}} className={`
+                                                ${styles.pizzaPage__info__top__buttons__button__image} 
+                                                ${styles.backgroundImage} 
+                                                ${styles.pizzaPage__info__top__buttons__button__imageEdit}`}>
+                                            </div>
+                                        :
+                                            <div onClick={() => {setTurnChangePizza(false)}}
+                                                className={`
+                                                    ${styles.pizzaPage__info__top__buttons__button__image} 
+                                                    ${styles.pizzaPage__info__top__buttons__button__cancel}`}
+                                            >X</div>
+                                        }
+                                    </div>
+                                    <div className={styles.pizzaPage__info__top__buttons__button}>
+                                        <div onClick={() => deletePizza()} className={`
+                                            ${styles.pizzaPage__info__top__buttons__button__image} 
+                                            ${styles.backgroundImage}`}>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className={styles.pizzaPage__info__desc}>
-                            {!turnChangePizza ?
-                                pizzaData.description
-                                :
-                                <Input value={newFields.description} placeholder={newFields.description} onChange={changeData} type={'text'} name={"description"}/>
-                            }
-                        </div>
-                        <div className={styles.pizzaPage__info__includes}>
-                            <div>
-                                <div className={styles.pizzaPage__info__includes__title}>
-                                    жири / 100г
+                            <div className={styles.pizzaPage__info__desc}>
+                                {!turnChangePizza ?
+                                    pizzaData.description
+                                    :
+                                    <Input value={newFields.description} placeholder={newFields.description} onChange={changeData} type={'text'} name={"description"}/>
+                                }
+                            </div>
+                            <div className={styles.pizzaPage__info__includes}>
+                                <div>
+                                    <div className={styles.pizzaPage__info__includes__title}>
+                                        жири / 100г
+                                    </div>
+                                    <div className={styles.pizzaPage__info__includes__item}>
+                                        {!turnChangePizza ? 
+                                            pizzaData.fat + 'г' 
+                                            :
+                                            <input 
+                                                value={newFields.fat} 
+                                                className={styles.pizzaPageInput}
+                                                placeholder={newFields.fat + 'г'} 
+                                                onChange={(e) => changeData(e, true)}
+                                                type={'number'} name={'fat'}/>
+                                        }
+                                    </div>
                                 </div>
-                                <div className={styles.pizzaPage__info__includes__item}>
-                                    {!turnChangePizza ? 
-                                        pizzaData.fat + 'г' 
+                                <div>
+                                    <div className={styles.pizzaPage__info__includes__title}>
+                                        білки / 100г
+                                    </div>
+                                    <div className={styles.pizzaPage__info__includes__item}>
+                                        {!turnChangePizza ? 
+                                            pizzaData.protein + 'г' 
+                                            :
+                                            <input 
+                                                value={newFields.protein} 
+                                                className={styles.pizzaPageInput}
+                                                placeholder={newFields.protein + "г"} 
+                                                onChange={(e) => changeData(e, true)}
+                                                type={'number'} name={'protein'}
+                                            />
+                                        }
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className={styles.pizzaPage__info__includes__title}>
+                                        вугл. / 100г
+                                    </div>
+                                    <div className={styles.pizzaPage__info__includes__item}>
+                                        {!turnChangePizza ? 
+                                            pizzaData.carbohydrates + 'г' 
+                                            :
+                                            <input 
+                                                value={newFields.carbohydrates} 
+                                                className={styles.pizzaPageInput}
+                                                placeholder={newFields.carbohydrates + "г"} 
+                                                onChange={(e) => changeData(e, true)}
+                                                type={'number'} name={'carbohydrates'}/>
+                                        }
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className={styles.pizzaPage__info__includes__title}>
+                                        вага
+                                    </div>
+                                    <div className={styles.pizzaPage__info__includes__item}>
+                                        {!turnChangePizza ? 
+                                                pizzaData.weight + 'г' 
+                                                :
+                                                <input 
+                                                    value={newFields.weight} 
+                                                    className={styles.pizzaPageInput}
+                                                    placeholder={newFields.weight + "г"} 
+                                                    onChange={(e) => changeData(e, true)}
+                                                    type={'number'} name={'weight'}/>
+                                            }
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.pizzaPage__info__size}>
+                                <div className={styles.pizzaPage__info__size__sizeTitle}>Розмір: </div>
+                                <div className={styles.pizzaPage__info__size__sizeItem}>
+                                    {!turnChangePizza ?
+                                        pizzaData.size === 'medium' ? "Середня" : pizzaData.size === 'small' ? "Мала" : "Велика"
                                         :
-                                        <input 
-                                            value={newFields.fat} 
-                                            className={styles.pizzaPageInput}
-                                            placeholder={newFields.fat + 'г'} 
-                                            onChange={(e) => changeData(e, true)}
-                                            type={'number'} name={'fat'}/>
+                                        <Select
+                                            className={styles.pizzaPage__info__size__sizeItem__select}
+                                            value={newFields.size}
+                                            onChange={changeSize}
+                                            options={options}
+                                            placeholder={newFields.size === 'medium' ? "Середня" : newFields.size === 'small' ? "Мала" : "Велика"}
+                                    />
                                     }
                                 </div>
                             </div>
-                            <div>
-                                <div className={styles.pizzaPage__info__includes__title}>
-                                    білки / 100г
-                                </div>
-                                <div className={styles.pizzaPage__info__includes__item}>
-                                    {!turnChangePizza ? 
-                                        pizzaData.protein + 'г' 
+                            <div className={styles.pizzaPage__info__orders}>
+                                <div className={styles.pizzaPage__info__size__sizeTitle}> Замовлень:</div>
+                                <div className={styles.pizzaPage__info__size__sizeItem}>
+                                    {!turnChangePizza ?
+                                        pizzaData.orders
                                         :
                                         <input 
-                                            value={newFields.protein} 
+                                            value={newFields.orders} 
                                             className={styles.pizzaPageInput}
-                                            placeholder={newFields.protein + "г"} 
+                                            placeholder={newFields.orders + ""} 
                                             onChange={(e) => changeData(e, true)}
-                                            type={'number'} name={'protein'}
+                                            type={'number'} name={'orders'}
                                         />
                                     }
                                 </div>
                             </div>
-                            <div>
-                                <div className={styles.pizzaPage__info__includes__title}>
-                                    вугл. / 100г
-                                </div>
-                                <div className={styles.pizzaPage__info__includes__item}>
-                                    {!turnChangePizza ? 
-                                        pizzaData.carbohydrates + 'г' 
-                                        :
-                                        <input 
-                                            value={newFields.carbohydrates} 
-                                            className={styles.pizzaPageInput}
-                                            placeholder={newFields.carbohydrates + "г"} 
-                                            onChange={(e) => changeData(e, true)}
-                                            type={'number'} name={'carbohydrates'}/>
-                                    }
-                                </div>
+                            {
+                                turnChangePizza &&
+                                    <AddCategory value={newFields.category} addCategory={addCategory} onChange={changeData}/>
+                            }
+                            <div className={styles.pizzaPage__info__typeBox}>
+                                <TypesBox fields={turnChangePizza ? newFields.categories : pizzaData.categories} remove={false} removeCategory={null}/>
                             </div>
-                            <div>
-                                <div className={styles.pizzaPage__info__includes__title}>
-                                    вага
-                                </div>
-                                <div className={styles.pizzaPage__info__includes__item}>
-                                    {!turnChangePizza ? 
-                                            pizzaData.weight + 'г' 
-                                            :
-                                            <input 
-                                                value={newFields.weight} 
-                                                className={styles.pizzaPageInput}
-                                                placeholder={newFields.weight + "г"} 
-                                                onChange={(e) => changeData(e, true)}
-                                                type={'number'} name={'weight'}/>
-                                        }
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.pizzaPage__info__size}>
-                            <div className={styles.pizzaPage__info__size__sizeTitle}>Розмір: </div>
-                            <div className={styles.pizzaPage__info__size__sizeItem}>
-                                {!turnChangePizza ?
-                                    pizzaData.size === 'medium' ? "Середня" : pizzaData.size === 'small' ? "Мала" : "Велика"
-                                    :
-                                    <Select
-                                        className={styles.pizzaPage__info__size__sizeItem__select}
-                                        value={newFields.size}
-                                        onChange={changeSize}
-                                        options={options}
-                                        placeholder={newFields.size === 'medium' ? "Середня" : newFields.size === 'small' ? "Мала" : "Велика"}
-                                  />
-                                }
-                            </div>
-                        </div>
-                        <div className={styles.pizzaPage__info__orders}>
-                            <div className={styles.pizzaPage__info__size__sizeTitle}> Замовлень:</div>
-                            <div className={styles.pizzaPage__info__size__sizeItem}>
-                                {!turnChangePizza ?
-                                    pizzaData.orders
+                            <div className={styles.pizzaPage__info__price}>
+                                {!turnChangePizza ? 
+                                    pizzaData.price 
                                     :
                                     <input 
-                                        value={newFields.orders} 
+                                        value={newFields.price} 
                                         className={styles.pizzaPageInput}
-                                        placeholder={newFields.orders + ""} 
+                                        placeholder={newFields.price + ""} 
                                         onChange={(e) => changeData(e, true)}
-                                        type={'number'} name={'orders'}
+                                        type={'number'} name={'price'}
                                     />
-                                }
+                                } грн
                             </div>
-                        </div>
-                        {
-                            turnChangePizza &&
-                                <AddCategory value={newFields.category} addCategory={addCategory} onChange={changeData}/>
-                        }
-                        <div className={styles.pizzaPage__info__typeBox}>
-                            <TypesBox fields={turnChangePizza ? newFields.categories : pizzaData.categories} remove={false} removeCategory={null}/>
-                        </div>
-                        <div className={styles.pizzaPage__info__price}>
-                            {!turnChangePizza ? 
-                                pizzaData.price 
-                                :
-                                <input 
-                                    value={newFields.price} 
-                                    className={styles.pizzaPageInput}
-                                    placeholder={newFields.price + ""} 
-                                    onChange={(e) => changeData(e, true)}
-                                    type={'number'} name={'price'}
-                                />
-                            } грн
-                        </div>
-                        <input onChange={
-                            (e) => loadImage(e)}
-                               name={'image'}
-                               ref={inputOpenFileRef}
-                               type="file"
-                               style={{ display: "none" }}
-                        />
-                        {turnChangePizza &&
-                        <div className={styles.pizzaPage__info__uploadImage}>
-                            <button
-                                className={styles.pizzaPage__info__upload}
-                                onClick={(e) =>
-                                    showOpenFileDlg(e)}
-                            >Змінити фото</button>
-                            {
-                                newFields.file !== undefined &&
-                                <div className={styles.pizzaPage__info__uploadImage__imageName}>{
-                                     newFields.file.name.substr(0, 20) + "..."
-                                }</div>
+                            <input onChange={
+                                (e) => loadImage(e)}
+                                name={'image'}
+                                ref={inputOpenFileRef}
+                                type="file"
+                                style={{ display: "none" }}
+                            />
+                            {turnChangePizza &&
+                            <div className={styles.pizzaPage__info__uploadImage}>
+                                <button
+                                    className={styles.pizzaPage__info__upload}
+                                    onClick={(e) =>
+                                        showOpenFileDlg(e)}
+                                >Змінити фото</button>
+                                {
+                                    newFields.file !== undefined &&
+                                    <div className={styles.pizzaPage__info__uploadImage__imageName}>{
+                                        newFields.file.name.substr(0, 20) + "..."
+                                    }</div>
+                                }
+                            </div>}
+                            {turnChangePizza && 
+                                <div onClick={(e) => updateNewFields(e)}><Button text={'Змінити'}/></div>
                             }
-                        </div>}
-                        <Button onClick={(e) => updateNewFields(e)} text={'Змінити'}/>
                     </div>
                 </div>
             </>

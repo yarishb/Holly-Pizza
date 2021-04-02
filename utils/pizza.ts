@@ -2,6 +2,9 @@ import axios from "axios";
 import {fileTypes} from "./variables";
 import {NextApiRequest} from "next";
 
+const moment = require('moment');
+
+
 export class PizzaRequestsHelper {
     deletePizza(id: number) {
         return new Promise((resolve, reject) => {
@@ -20,20 +23,15 @@ export class PizzaRequestsHelper {
 
 export class PizzaDataParser {
     parseData(timeStamp: string, imageTimeStamp: string, req: NextApiRequest) {
-        const fs = require('fs')
         const formidable = require('formidable');
         const slugify = require('slugify');
         const path = require('path');
+        
 
         return new Promise((resolve, reject) => {
-            fs.mkdir(`./public/media/${timeStamp}`, {recursive: true}, (err) => {
-                if (err) return reject({message: {msg: "Сталась помилка при створенні папки."}})
-            })
-
-
             const form = formidable({
                 uploadDir: `./public/media/${timeStamp}`
-            })
+            })            
 
             form.keepExtensions = true
             form.keepFileName = true
@@ -52,7 +50,7 @@ export class PizzaDataParser {
                 }
             })
 
-            form.parse(req, (err, fields, files) => {
+            form.parse(req, (err, fields, files) => {  
                 resolve({fields, files})
             })
         })
@@ -60,5 +58,12 @@ export class PizzaDataParser {
 
     validateType(imageType) {
         return fileTypes.includes(imageType)
+    }
+
+    getTimeStampAndPizzaTimeStamp() {
+        const timeStamp: string = moment().format('DD-MM-YYYY')
+        const imageTimeStamp: string = moment().format('hh:mm')
+
+        return {timeStamp, imageTimeStamp}
     }
 }

@@ -43,3 +43,9 @@ export interface PizzasRes {
     status: number,
     statusText: string
 }
+
+
+export interface TimeStamp {
+    timeStamp: string,
+    imageTimeStamp: string
+}

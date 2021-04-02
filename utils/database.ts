@@ -58,4 +58,17 @@ export class DatabaseManager {
         return "Successfully deleted item"
     }
 
+    updateElement = async(table, fields, condition_key, condition_value) => {
+        const keys = Object.keys(fields)
+        let lastItem
+        const argKeys = Object.keys(fields).map((obj,index) => {
+            lastItem = index+1
+            return `${keys[index]} = $${index+1}`
+        }).join(', ');
+
+        await this.db.query(
+            `UPDATE ${table} SET ${argKeys} WHERE ${condition_key} = $${lastItem+1}`,
+            [...Object.values(fields), condition_value]
+        )
+    }
 }

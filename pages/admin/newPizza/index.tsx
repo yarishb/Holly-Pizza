@@ -115,7 +115,6 @@ const newPizza = () => {
                     data.append(name, fields[name])
                 }
             })
-
             const newPizzaReq = await Axios.post(
                 `${process.env.API_URL}/pizzas/createPizza`,
                 data,
