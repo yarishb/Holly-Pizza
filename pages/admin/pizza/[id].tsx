@@ -9,7 +9,7 @@ import Head from "next/head";
 import Back from "../../../components/Back/Back";
 import TypesBox from "../../../components/TypesBox/TypesBox";
 import { useRouter } from "next/router";
-import {PizzaRequestsHelper} from '../../../utils/pizza';
+import {DBRequestManager} from '../../../utils/pizza';
 import Input from "../../../components/Input/Input";
 import {fileTypes, options} from '../../../utils/variables';
 import Select from 'react-select';
@@ -39,7 +39,7 @@ export default function Pizza({pizzaResData}) {
         status: 0
     })
     const router = useRouter()
-    const pizzaHelperManager = new PizzaRequestsHelper()
+    const pizzaHelperManager = new DBRequestManager()
 
     const setErrorHandler = (msg: string, status: number) => {
         setError({
@@ -51,7 +51,7 @@ export default function Pizza({pizzaResData}) {
 
 
     const deletePizza = () => {
-        pizzaHelperManager.deletePizza(pizzaData.id)
+        pizzaHelperManager.deleteItemRequest(pizzaData.id, 'pizzas/deletePizza')
             .then(() => {
                 router.back()
             })
@@ -122,11 +122,11 @@ export default function Pizza({pizzaResData}) {
                 }
             })
             
-            const updatedPizzaFields = await Axios.post(
+            const updatedPizzaFields = await Axios.put(
                 `${process.env.API_URL}/pizzas/updatePizza`,
                 data,
                 {headers: {"Content-type": 'multipart/form-data'}})
-            
+
         } catch (err) {
             console.log(err)
         }

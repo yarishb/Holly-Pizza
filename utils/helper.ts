@@ -11,8 +11,8 @@ class Helper {
     }
 
 
-    async getAllItemsFromTable(tableName: string) {
-        const rows: Fields[] | UserInterface[] = await this.dbManager.selectData(tableName)
+    async getAllItemsFromTable(tableName: string, select: string) {
+        const rows: Fields[] | UserInterface[] = await this.dbManager.selectData(tableName, select)
         
         if (rows.length === 0) {
             return {msg: "No elements in database"}

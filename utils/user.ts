@@ -20,8 +20,7 @@ class User {
         const tokenRes: TokenRes = await Axios.post(
             `${process.env.API_URL}/users/validToken`,
             null, {headers: {'x-auth-token': token}}
-        )
-
+        )        
 
         let userRes: UserRes | undefined = undefined
         if (tokenRes.data) {
@@ -30,7 +29,8 @@ class User {
 				{headers: {'x-auth-token': token}}
 			)
         }
-        return userRes
+                        
+        return userRes.data
     }
 
 

@@ -33,11 +33,11 @@ const adminPage = () => {
 
     useEffect(() => {
         const userManager = new User()
-        userManager.checkLogged().then((res: UserRes | undefined) => {
-            if (res === undefined || !res.data.is_staff) {
+        userManager.checkLogged().then((res: UserInterface | undefined) => {
+            if (res === undefined || !res[0].is_staff) {
                 router.push(`admin/sign/${true}`)
             }
-            else setAdminData(res.data)
+            else setAdminData(res)
         })
     }, [])
 

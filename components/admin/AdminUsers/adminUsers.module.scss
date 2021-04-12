@@ -1,0 +1,77 @@
+@import '../../../styles/variables/variables.scss';
+
+.rows {
+  margin-top: 10%;
+}
+
+%backgroundImage {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.adminUsers {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30%;
+  margin-left: 25%;
+  width: 100%;
+}
+
+.manageUsers {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(black, .1);
+  padding: 1rem .3rem 1rem .7rem;
+  width: 100%;
+  position: relative;
+  &__userName {
+    font-size: 20px;
+    margin-left: 2rem;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 2rem;
+
+    &>* {
+      cursor: pointer;
+    }
+
+    &__changeUser {
+      @extend %backgroundImage;
+      background-image: url('../../../images/edit.png');
+      width: 1.3rem;
+      height: 1.3rem;
+      margin-right: 1rem;
+    }
+  
+    &__deleteUser {
+      @extend %backgroundImage;
+      background-size: contain;
+      background-image: url('../../../images/delete.png');
+      width: 1.2rem;
+      height: 1.5rem;
+    }
+  }
+
+  &__manageButtons {
+
+    &__submit {
+      position: absolute;
+      right: 3.5rem;
+      bottom: .5rem;
+    }
+
+    &__close {
+      cursor: pointer;
+      font-size: 20px;
+      position: absolute;
+      right: 2rem;
+      color: $pink;
+    }
+  }
+}
+
+

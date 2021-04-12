@@ -5,10 +5,10 @@ import {NextApiRequest} from "next";
 const moment = require('moment');
 
 
-export class PizzaRequestsHelper {
-    deletePizza(id: number) {
+export class DBRequestManager {
+    deleteItemRequest(id: number, link:string) {
         return new Promise((resolve, reject) => {
-            const res = axios.post(`${process.env.API_URL}/pizzas/deletePizza`, {id})
+            const res = axios.post(`${process.env.API_URL}/${link}`, {id})
             res.then((data) => {
                 resolve(data)
             })

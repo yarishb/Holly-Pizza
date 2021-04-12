@@ -8,6 +8,7 @@ import Image from 'next/image'
 import {ErrorInterface, ErrorResponse} from "../../../interfaces/error";
 import Error from '../../Error/Error'
 
+
 interface FindPizza {
     pizzaName: string,
     pizzaId: string
@@ -34,7 +35,7 @@ export default function AdminPizza() {
     }
 
     useEffect(() => {
-        Axios.post(`${process.env.API_URL}/pizzas`).then((data: PizzasRes) => {
+        Axios.get(`${process.env.API_URL}/pizzas`).then((data: PizzasRes) => {
             setData(data.data.reverse())
         })
     }, [])
@@ -96,8 +97,8 @@ export default function AdminPizza() {
                             <div className={styles.pizzas__pizzaEl__name}>{pizza.name}</div>
                             <div className={styles.pizzas__pizzaEl__description}>{pizza.description}</div>
                             <div className={styles.categories}>
-                                {typeof pizza.category === "object" &&
-                                    pizza.category.map((category: string, idx:number) => {
+                                {typeof pizza.categories === "object" &&
+                                    pizza.categories.map((category: string, idx:number) => {
                                         return (
                                             <div key={idx} className={styles.categories__category}>{category}</div>
                                         )

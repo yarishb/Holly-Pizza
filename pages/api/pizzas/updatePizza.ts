@@ -13,7 +13,7 @@ export const config = {
 }
 
 const updatePizza = async(req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method === 'POST') {        
+    if (req.method === 'PUT') {        
         try {
             const parseHelper = new PizzaDataParser()
             const dbManager = new DatabaseManager(db)

@@ -1,31 +1,35 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {DatabaseManager} from "../../../utils/database";
 import db from "../../../lib/db";
-import {UserInterface} from '../../../interfaces/user';
+import {UserInterface, UserResInterface} from '../../../interfaces/user';
 
 const jwt_decode = require('jwt-decode');
 
 const getUser = async(req: NextApiRequest, res: NextApiResponse) => {
      try {
         const dbManager = new DatabaseManager(db)
-        const {id} = req.body
+        const {id, name} = req.body
+        
         let token: string;
-        token = id ?? jwt_decode(req.headers['x-auth-token']).id;
+        token = id ?? name ?? jwt_decode(req.headers['x-auth-token']).id
         
-        const decodedJwt = token !== undefined ? token : id;
-        
-        const user: Array<UserInterface> = await dbManager.findElement("*", "public.users", "id", decodedJwt)
-        if (user.length === 0) return res.status(400).json({msg: "Ви не ввійшли в свій аккаунт."})    
+        const decodedJwt = !!token ? token : id === '' ? name : id
+        const from = id === '' ? 'name' : 'id'
 
-        res.send({
-            name: user[0].name,
-            email: user[0].email,
-            phone: user[0].phone,
-            orders: user[0].orders,
-            is_staff: user[0].is_staff,
-        });
+
+        const usersRes: Array<UserResInterface> = await dbManager.findElement("*", "public.users", from, decodedJwt)
+        
+        if (usersRes.length === 0) {
+            return res.status(400).json({msg: "Користувачів не знайдено"})
+        }
+        
+
+        for (let i = 0, max = Object.keys(usersRes).length; i < max; i++) {
+            delete usersRes[i]['password']
+        }
+        
+        res.send(usersRes)
     } catch (err) {
-        console.log(err)
         res.status(500).json({err: err.message});
     }
 }

@@ -4,10 +4,18 @@ export interface UserInterface {
     email: string,
     is_staff: boolean,
     orders: any,
-    password: string,
+    password?: string,
     phone:string
 }
 
+export interface UserResInterface {
+    id: number,
+    name: string,
+    email: string,
+    is_staff: boolean,
+    orders: any,
+    phone:string
+}
 
 export interface InputInterface {
     name: string,
@@ -16,4 +24,8 @@ export interface InputInterface {
     confirmPassword: string,
     phone: string,
     is_staff: boolean
+}
+
+export interface DisplayUserInterface extends UserInterface {
+
 }
