@@ -17,6 +17,8 @@ import AdminSearch from "../AdminSearcher/AdminSearch";
 import {ErrorInterface} from "../../../interfaces/error";
 import Error from '../../Error/Error'
 import {UserValues} from "./userValues/UserValues";
+import Select from 'react-select';
+import {staff_options} from "../../../utils/variables";
  
 
 const useStyles = makeStyles({
@@ -51,6 +53,7 @@ export default function AdminUsers() {
         status: 0
     })
     const [newFields, setNewFields] = useState<UserInterface>()
+    const [openOptions, setOpenOptions] = useState<boolean>(false)
 
 
     const setErrorHandler = (msg: string, status: number) => {
@@ -64,16 +67,28 @@ export default function AdminUsers() {
     const classes = useStyles();
     const dbReqHelper = new DBRequestManager()
 
+    const changeData = (e, isNumeric=false, func) => {
+        e.preventDefault()
+        const targetValue = isNumeric ? +e.target.value : e.target.value
+        func(e, targetValue)
+    }
+
+    const newFieldsInput = (e, targetValue) => {
+        setNewFields({
+            ...newFields,
+            [e.target.name]: targetValue
+        })
+    }
 
     const findUserInputHandler = (e) => {
         e.preventDefault()
-        const value: string = e.target.value
 
         setFindUser({
             ...findUser,
-            [e.target.name]: value
+            [e.target.name]: e.target.value
         })
     }
+
 
     const submit = async(e) => {
         e.preventDefault()
@@ -91,11 +106,15 @@ export default function AdminUsers() {
     }
 
     useEffect(() => {
+        getAllUsersAndStoreInState()
+    }, [])
+
+
+    const getAllUsersAndStoreInState = () => {
         Axios.get(`${process.env.API_URL}/users/getUsers`).then(res => {
             setUsers(res.data)
         })
-    }, [])
-
+    }
 
     const deleteUser = (id: number, link: string) => {        
         dbReqHelper.deleteItemRequest(id, link).then((users: UserInterface[]) => {
@@ -109,6 +128,42 @@ export default function AdminUsers() {
         setNewFields(user)
     }
 
+    const changeIsStaff = el => {
+        setOpenOptions(!openOptions)
+
+        setNewFields({
+            ...newFields,
+            is_staff: el.value
+        })
+    }
+
+    const submitChanges = async(e) => {
+        try {
+            e.preventDefault()
+            const body = {
+                fields: {
+                    id: newFields.id,
+                    name: newFields.name,
+                    phone: newFields.phone,
+                    email: newFields.email,
+                    is_staff: newFields.is_staff
+                },
+                id: selectedUser.user.id
+            }            
+            
+            const isSuccessfullyUpdated = await Axios.put(
+                `${process.env.API_URL}/users/updateUser`, body)
+
+
+            if (isSuccessfullyUpdated) {
+                getAllUsersAndStoreInState()
+                setChangeUserFields(false)
+                setSelectedUser({open: false})
+            }
+        } catch (err) {
+            setErrorHandler(err.response.data.msg, err.response.data.status)
+        }
+    }
 
     if (users) {
         return (
@@ -137,7 +192,7 @@ export default function AdminUsers() {
                     style={{backgroundColor: "#16c79a", color: "#fff", width: "12rem", marginBottom: "-3rem"}}>
                     Новий користувач
                 </Button>
-                    <TableContainer component={Paper} className={styles.rows}>
+                    <TableContainer  component={Paper} className={styles.rows}>
                     {
                         selectedUser.open &&
                             <div className={styles.manageUsers}>
@@ -164,7 +219,7 @@ export default function AdminUsers() {
                                             className={styles.manageUsers__manageButtons__close}
                                         >x</div>
                                         <div className={styles.manageUsers__manageButtons__submit}>
-                                            <Button  variant="contained" color="secondary">
+                                            <Button onClick={(e) => submitChanges(e)} variant="contained" color="secondary">
                                                 submit
                                             </Button>
                                         </div>
@@ -180,7 +235,6 @@ export default function AdminUsers() {
                                         <TableCell align="right">name</TableCell>
                                         <TableCell align="right">phone</TableCell>
                                         <TableCell align="right">email</TableCell>
-                                        <TableCell align="right">orders</TableCell>
                                         <TableCell align="right">is_staff</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -195,14 +249,53 @@ export default function AdminUsers() {
                                                         inputProps={{ "aria-label": "uncontrolled-checkbox" }} />
                                                 </TableCell>
                                                 {changeUserFields &&
-                                                    selectedUser.user.id === user.id ?
+                                                    selectedUser && selectedUser.user.id === user.id ?
                                                         <>
-                                                            <TableCell align="right"><input /></TableCell>
-                                                            <TableCell align="right"><input /></TableCell>
-                                                            <TableCell align="right"><input /></TableCell>
-                                                            <TableCell align="right"><input /></TableCell>
-                                                            <TableCell align="right"><input /></TableCell>
-                                                            <TableCell align="right"><input /></TableCell>
+                                                            <TableCell align="right">
+                                                                <input
+                                                                    placeholder={newFields.id + ''}
+                                                                    name={'id'}
+                                                                    onChange={(e) => changeData(e, true, newFieldsInput)}
+                                                                    value={newFields.id}
+                                                                    className={styles.input}
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                <input
+                                                                    className={styles.inputField}
+                                                                    name={'name'}
+                                                                    value={newFields.name}
+                                                                    onChange={(e) => changeData(e, false, newFieldsInput)}
+                                                                    placeholder={newFields.name}
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                <input
+                                                                    className={styles.inputField}
+                                                                    name={'phone'}
+                                                                    value={newFields.phone}
+                                                                    onChange={(e) => changeData(e, false, newFieldsInput)}
+                                                                    placeholder={newFields.phone}
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                <input
+                                                                    className={styles.inputField}
+                                                                    name={'email'}
+                                                                    value={newFields.email}
+                                                                    onChange={(e) => changeData(e, false, newFieldsInput)}
+                                                                    placeholder={newFields.email}
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="right">
+                                                                <Select
+                                                                    className={styles.options}
+                                                                    value={newFields.is_staff}
+                                                                    onChange={changeIsStaff}
+                                                                    options={staff_options}
+                                                                    placeholder={new String(newFields.is_staff)}
+                                                                />
+                                                            </TableCell>
                                                         </>
                                                     :
                                                     <UserValues user={user}/>

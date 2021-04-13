@@ -8,7 +8,6 @@ export function UserValues({user}) {
             <TableCell align="right">{user.name}</TableCell>
             <TableCell align="right">{user.phone}</TableCell>
             <TableCell align="right">{user.email}</TableCell>
-            <TableCell align="right">{Object.values(user.orders).length}</TableCell>
             <TableCell align="right">{user.is_staff ? "true" : "false"}</TableCell>
         </>
     )

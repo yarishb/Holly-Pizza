@@ -26,6 +26,7 @@ const getUser = async(req: NextApiRequest, res: NextApiResponse) => {
 
         for (let i = 0, max = Object.keys(usersRes).length; i < max; i++) {
             delete usersRes[i]['password']
+            delete usersRes[i]['orders']
         }
         
         res.send(usersRes)

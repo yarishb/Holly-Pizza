@@ -35,3 +35,11 @@ $green: #16c79a;
   box-shadow: 2px 0px 8px 0px rgba(34, 60, 80, 0.2);
   -moz-box-shadow: 2px 0px 8px 0px rgba(34, 60, 80, 0.2);
 }
+
+%basicInput {
+  font-size: 20px;
+  width: 4rem;
+  background-color: rgba(gray, .1);
+  border-radius: 3px;
+  padding: .2rem;
+}

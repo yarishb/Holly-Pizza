@@ -1,7 +1,13 @@
 @import '../../../styles/variables/variables.scss';
 
+.input {
+  @extend %basicInput;
+}
+
 .rows {
   margin-top: 10%;
+  overflow: scroll;
+  z-index: 1;
 }
 
 %backgroundImage {
@@ -13,7 +19,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 30%;
-  margin-left: 25%;
+  margin-left: 7%;
   width: 100%;
 }
 
@@ -26,7 +32,7 @@
   position: relative;
   &__userName {
     font-size: 20px;
-    margin-left: 2rem;
+    margin-left: .5rem;
   }
 
   &__buttons {
@@ -57,7 +63,6 @@
   }
 
   &__manageButtons {
-
     &__submit {
       position: absolute;
       right: 3.5rem;
@@ -74,4 +79,16 @@
   }
 }
 
+.inputField {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  color: grey;
+  padding-left: .5rem;
+  width: 7rem;
+}
 
+
+.options {
+  position: absolute;
+  width: 5rem;
+}

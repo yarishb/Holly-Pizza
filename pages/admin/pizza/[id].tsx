@@ -79,7 +79,7 @@ export default function Pizza({pizzaResData}) {
 
     const changeData = (e, isNumeric=false) => {
         e.preventDefault()
-        const targetValue = isNumeric ? parseInt(e.target.value) : e.target.value
+        const targetValue = isNumeric ? +e.target.value : e.target.value
 
         setNewFields({
             ...newFields,
