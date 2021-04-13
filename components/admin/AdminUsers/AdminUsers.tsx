@@ -151,7 +151,7 @@ export default function AdminUsers() {
                 id: selectedUser.user.id
             }            
             
-            const isSuccessfullyUpdated = await Axios.put(
+            const isSuccessfullyUpdated: boolean = await Axios.put(
                 `${process.env.API_URL}/users/updateUser`, body)
 
 

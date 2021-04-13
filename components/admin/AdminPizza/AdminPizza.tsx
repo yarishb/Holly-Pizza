@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from 'next/image'
 import {ErrorInterface, ErrorResponse} from "../../../interfaces/error";
 import Error from '../../Error/Error'
+import PizzaCard from '../../PizzaCard/PizzaCard';
 
 
 interface FindPizza {
@@ -92,26 +93,7 @@ export default function AdminPizza() {
             <div className={styles.pizzas}>
                 {data && data.map((pizza: Fields, idx: number) => {
                     return (
-                        <div className={styles.pizzas__pizzaEl} key={idx}>
-                            <Image className={styles.pizzas__pizzaEl__pizzaImage} src={`${pizza.image}`}  width="230" height="230" />
-                            <div className={styles.pizzas__pizzaEl__name}>{pizza.name}</div>
-                            <div className={styles.pizzas__pizzaEl__description}>{pizza.description}</div>
-                            <div className={styles.categories}>
-                                {typeof pizza.categories === "object" &&
-                                    pizza.categories.map((category: string, idx:number) => {
-                                        return (
-                                            <div key={idx} className={styles.categories__category}>{category}</div>
-                                        )
-                                })}
-                            </div>
-                            <div className={styles.pizzas__pizzaEl__bottom}>
-                                <div className={styles.pizzas__pizzaEl__bottom__priceAndWeight}>
-                                    <div className={styles.pizzas__pizzaEl__bottom__priceAndWeight__weight}>{pizza.weight} г</div>
-                                    <div className={styles.pizzas__pizzaEl__bottom__priceAndWeight__price}>{pizza.price} ₴</div>
-                                </div>
-                                <Link href={`/admin/pizza/[id]`} as={`/admin/pizza/${pizza.id}`}><button className={styles.pizzas__pizzaEl__bottom__more}>Редагувати</button></Link>
-                            </div>
-                        </div>
+                        <PizzaCard pizza={pizza} idx={pizza.id} buttonType={'change'}/>
                     )
                 })}
             </div>
