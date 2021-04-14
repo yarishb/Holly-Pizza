@@ -9,14 +9,17 @@ export interface File {
 
 
 export interface PizzaFields {
-    file: any,
+    file?: any,
+    image?: string,
+    lastUpdate?: string
     name: string,
     description: string,
     price: number,
-    category: any,
+    category?: any,
     categories: any,
     protein: number,
     fat: number,
+    orders: number,
     carbohydrates: number,
     weight: number,
     size: string,
